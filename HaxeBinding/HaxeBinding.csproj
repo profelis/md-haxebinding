@@ -43,17 +43,19 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
     </Reference>
-    <Reference Include="gtk-sharp" />
-    <Reference Include="glib-sharp" />
-    <Reference Include="gdk-sharp" />
-    <Reference Include="pango-sharp" />
+    <Reference Include="gtk-sharp">
+    </Reference>
+    <Reference Include="glib-sharp">
+    </Reference>
+    <Reference Include="gdk-sharp">
+    </Reference>
+    <Reference Include="pango-sharp">
+    </Reference>
     <Reference Include="Mono.Cairo" />
     <Reference Include="Mono.Debugging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e9ce85b0923c84f">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Mono.Posix">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="Mono.Posix" />
     <Reference Include="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
     </Reference>
@@ -82,7 +84,6 @@
     <Compile Include="HaxeBinding\Highlighting\HaxeSyntaxMode.cs" />
     <Compile Include="HaxeBinding\Languages\HaxeLanguageBinding.cs" />
     <Compile Include="HaxeBinding\Languages\HXMLLanguageBinding.cs" />
-    <Compile Include="HaxeBinding\Languages\NMMLLanguageBinding.cs" />
     <Compile Include="HaxeBinding\Languages\Gui\HaxeCompletionData.cs" />
     <Compile Include="HaxeBinding\Languages\Gui\HaxeOptionsPanel.cs" />
     <Compile Include="HaxeBinding\Languages\Gui\HaxeParameterDataProvider.cs" />
@@ -105,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml">
-      <LogicalName>EmptyHaxeCSProject</LogicalName>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeCPPProject.xpt.xml">
       <LogicalName>EmptyHaxeCPPProject.xpt.xml</LogicalName>
@@ -125,9 +126,6 @@
     <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeSourceFile.xft.xml">
       <LogicalName>EmptyHaxeSourceFile.xft.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyNMMLFile.xft.xml">
-      <LogicalName>EmptyNMMLFile.xft.xml</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyOpenFLProject.xpt.xml">
       <LogicalName>EmptyOpenFLProject.xpt.xml</LogicalName>
     </EmbeddedResource>
@@ -135,7 +133,6 @@
       <LogicalName>EmptyOpenFLProjectXMLFile.xft.xml</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxMode.xml" />
-    <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\NMMLSyntaxMode.xml" />
     <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-16.png" />
     <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-22.png" />
     <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-24.png" />
