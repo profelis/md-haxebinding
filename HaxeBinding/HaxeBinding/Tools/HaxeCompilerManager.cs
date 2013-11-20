@@ -12,6 +12,7 @@ using MonoDevelop.Core.Serialization;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Projects;
 using MonoDevelop.HaxeBinding.Projects;
+using HaxeBinding;
 
 
 namespace MonoDevelop.HaxeBinding.Tools
@@ -55,56 +56,20 @@ namespace MonoDevelop.HaxeBinding.Tools
 				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
 			}
 
-			string hxml = File.ReadAllText (hxmlPath);
-			hxml = hxml.Replace (Environment.NewLine, " ");
-			string[] hxmlArgs = hxml.Split (' ');
-			
-			bool createNext = false;
-			
-			foreach (string hxmlArg in hxmlArgs)
-			{
-				if (hxmlArg.Length == 0)
-					continue;
-				if (createNext)
-				{
-					if (!hxmlArg.StartsWith ("-"))
-					{
-						string path = Path.GetFullPath (Path.GetDirectoryName (hxmlArg));
-						if (!Directory.Exists (path))
-						{
-							path = Path.Combine (project.BaseDirectory, hxmlArg);
-							if (!Directory.Exists (Path.GetDirectoryName (path)))
-							{
-								Directory.CreateDirectory (Path.GetDirectoryName (path));
-							}
-						}
-					}
-					createNext = false;
-				}
-				
-				if (hxmlArg == "-js" || hxmlArg == "-swf" || hxmlArg == "-swf9" || hxmlArg == "-neko")
-				{
-					createNext = true;
-				}
-			}
-			
-			string args = String.Join (" ", hxmlArgs);
+			string hxmlContent = File.ReadAllText (hxmlPath);
+			HxmlParser hxml = new HxmlParser ();
+			hxml.Parse (hxmlContent);
+			hxml.GetProjectPath (project, true);
+
+			string args = hxml.Args;
 			
 			if (configuration.DebugMode)
 			{
 				args += " -debug";
 			}
 			
-			if (project.AdditionalArguments != "")
-			{
-				args += " " + project.AdditionalArguments;
-			}
-			
-			if (configuration.AdditionalArguments != "")
-			{
-				args += " " + configuration.AdditionalArguments;
-			}
-			
+			args += " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+
 			string error = "";
 			int exitCode = DoCompilation (exe, args, project.BaseDirectory, monitor, ref error);
 			
@@ -367,172 +332,86 @@ namespace MonoDevelop.HaxeBinding.Tools
 				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
 			}
 			
-			string hxml = File.ReadAllText (hxmlPath);
-			hxml = hxml.Replace (Environment.NewLine, " ");
-			string[] hxmlArgs = hxml.Split (' ');
-			
-			List<string> platforms = new List<string> ();
-			List<string> platformOutputs = new List<string> ();
-			
-			bool addNext = false;
-			bool nextIsMain = false;
-			string main = "";
-			
-			foreach (string hxmlArg in hxmlArgs)
-			{
-				if (hxmlArg.Length == 0)
-					continue;
-				if (addNext)
-				{
-					if (!hxmlArg.StartsWith ("-"))
-					{
-						if (nextIsMain)
-						{
-							main = hxmlArg;
-							nextIsMain = false;
-						}
-						else
-						{
-							platformOutputs.Add (hxmlArg);
-						}
-					}
-					else
-					{
-						if (!nextIsMain)
-						{
-							platforms.RemoveAt (platforms.Count - 1);
-						}
+			string hxmlCont = File.ReadAllText (hxmlPath);
+			HxmlParser hxml = new HxmlParser ();
+			hxml.Parse (hxmlCont);
+
+			string main = hxml.Main;
+			string output = hxml.Out;
+
+			switch (hxml.Target) {
+			case HaxeTarget.Cpp:
+			case HaxeTarget.Neko:
+				if (hxml.Target == HaxeTarget.Cpp) {
+					output = Path.Combine (output, main);
+					if (configuration.DebugMode) {
+						output += "-debug";
 					}
 				}
-				
-				addNext = true;
-				
-				switch (hxmlArg)
-				{
-					case "-cpp":
-						platforms.Add ("cpp");
-						break;
-						
-					case "-swf":
-						platforms.Add ("flash");
-						break;
-					
-					case "-js":
-						platforms.Add ("js");
-						break;
-					
-					case "-neko":
-						platforms.Add ("neko");
-						break;
-						
-					case "-php":
-						platforms.Add ("php");
-						break;
 
-					case "-java":
-						platforms.Add ("java");
-						break;
-
-					case "-cs":
-						platforms.Add ("cs");
-						break;
-					
-					case "-main":
-						nextIsMain = true;
-						break;
-						
-					default:
-						addNext = false;
-						break;
+				if (!File.Exists (Path.GetFullPath (output))) {
+					output = Path.Combine (project.BaseDirectory, output);
 				}
-			}
-			
-			
-			int i = 0;
-			
-			//for (int i = 0; i < platforms.Count; i++)
-			//{
-				string platform = platforms[i];
-				string output = platformOutputs[i];
-				
-				if (platform == "cpp" || platform == "neko")
-				{
-					if (platform == "cpp")
-					{
-						output = Path.Combine (output, main);
-						if (configuration.DebugMode)
-						{
-							output += "-debug";
-						}
-					}
-					
-					if (!File.Exists (Path.GetFullPath (output)))
-					{
-						output = Path.Combine (project.BaseDirectory, output);
-					}
-					
-					string exe = "";
-					string args = "";
-					
-					if (platform == "cpp")
-					{
-						exe = output;
-					}
-					else
-					{
-						exe = "neko";
-						args = "\"" + output + "\"";
-					}
-					
-					//NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
-					HaxeExecutionCommand cmd = new HaxeExecutionCommand (exe);
-					cmd.Arguments = args;
-					cmd.WorkingDirectory = Path.GetDirectoryName (output);
-					
-					if (configuration.DebugMode)
-					{
+
+				string exe = "";
+				string args = "";
+
+				if (hxml.Target == HaxeTarget.Cpp) {
+					exe = output;
+				} else {
+					exe = "neko";
+					args = "\"" + output + "\"";
+				}
+
+				//NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+				HaxeExecutionCommand cmd = new HaxeExecutionCommand (exe);
+				cmd.Arguments = args;
+				cmd.WorkingDirectory = Path.GetDirectoryName (output);
+
+				if (configuration.DebugMode) {
 					//	cmd.EnvironmentVariables.Add ("HXCPP_DEBUG_HOST", "gdb");
-						cmd.EnvironmentVariables.Add ("HXCPP_DEBUG", "1");
-					}
-					//cmd.WorkingDirectory = project.BaseDirectory.FullPath;
-				
-					//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Command);
-					//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Arguments);
-					//MonoDevelop.Ide.MessageService.ShowMessage (cmd.WorkingDirectory);
-				
-					return cmd;
+					cmd.EnvironmentVariables.Add ("HXCPP_DEBUG", "1");
 				}
-				else if (platform == "flash" || platform == "js")
-				{
-					if (!File.Exists (Path.GetFullPath (output)))
-					{
-						output = Path.Combine (project.BaseDirectory, output);
-					}
-					
-					if (platform == "js")
-					{
-						output = Path.Combine (Path.GetDirectoryName (output), "index.html");
-					}
-					
-					//string target = output;
-					
-					switch (Environment.OSVersion.Platform)
-					{
-						case PlatformID.MacOSX:
-							//target = "open \"" + output + "\"";
-							break;
-						
-						case PlatformID.Unix:
-							//target = "xdg-open \"" + output + "\"";
-							break;
-					}
-				
-					ProcessExecutionCommand cmd = new ProcessExecutionCommand ();
-					cmd.Command = output;
-					return cmd;
+				//cmd.WorkingDirectory = project.BaseDirectory.FullPath;
+
+				//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Command);
+				//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Arguments);
+				//MonoDevelop.Ide.MessageService.ShowMessage (cmd.WorkingDirectory);
+
+				return cmd;
+
+			case HaxeTarget.Flash:
+			case HaxeTarget.Js:
+
+				if (!File.Exists (Path.GetFullPath (output))) {
+					output = Path.Combine (project.BaseDirectory, output);
 				}
-			//}
-			
+
+				if (hxml.Target == HaxeTarget.Js) {
+					output = Path.Combine (Path.GetDirectoryName (output), "index.html");
+				}
+
+				//string target = output;
+
+				switch (Environment.OSVersion.Platform) {
+				case PlatformID.MacOSX:
+					//target = "open \"" + output + "\"";
+					break;
+
+				case PlatformID.Unix:
+					//target = "xdg-open \"" + output + "\"";
+					break;
+				}
+
+				ProcessExecutionCommand cmd2 = new ProcessExecutionCommand ();
+				cmd2.Command = output;
+				return cmd2;
+
+			default:
+
+				break;
+			}
+
 			return null;
 		}
 		
@@ -550,10 +429,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			{
 				return context.ExecutionHandler.CanExecute (cmd);
 			}
-			else
-			{
-				return true;
-			}
+			return true;
 		}
 		
 
