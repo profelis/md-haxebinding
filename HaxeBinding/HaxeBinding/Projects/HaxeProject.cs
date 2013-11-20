@@ -24,19 +24,45 @@ namespace MonoDevelop.HaxeBinding.Projects
 		
 		[ItemProperty("AdditionalArguments", DefaultValue="")]
 		string mAdditionalArguments = string.Empty;
-		
+
 		public string AdditionalArguments {
 			get { return mAdditionalArguments;  }
 			set { mAdditionalArguments = value; }
 		}
-		
-		
+
+
 		[ItemProperty("TargetHXMLFile", DefaultValue="")]
 		string mTargetHXMLFile = string.Empty;
 		
 		public string TargetHXMLFile {
 			get { return mTargetHXMLFile;  }
 			set { mTargetHXMLFile = value; }
+		}
+
+
+		[ItemProperty("OutputFile", DefaultValue="")]
+		string mOutputFile = string.Empty;
+
+		public string OutputFile {
+			get { return mOutputFile; }
+			set { mOutputFile = value; }
+		}
+
+		[ItemProperty("ExecuteFile", DefaultValue="")]
+		string mExecuteFile = string.Empty;
+
+		public string ExecuteFile {
+			get { return mExecuteFile; }
+			set { mExecuteFile = value; }
+		}
+
+
+		[ItemProperty("OutputArguments", DefaultValue="")]
+		string mOutputArguments = string.Empty;
+
+		public string OutputArguments {
+			get { return mOutputArguments; }
+			set { mOutputArguments = value; }
 		}
 
 		public string ModuleName {
@@ -61,16 +87,22 @@ namespace MonoDevelop.HaxeBinding.Projects
 		{
 			if (projectOptions.Attributes ["TargetHXMLFile"] != null)
 			{
-				
 				TargetHXMLFile = GetOptionAttribute (info, projectOptions, "TargetHXMLFile");
-				
 			}
 			
 			if (projectOptions.Attributes ["AdditionalArguments"] != null)
 			{
-				
 				AdditionalArguments = GetOptionAttribute (info, projectOptions, "AdditionalArguments");
-				
+			}
+
+			if (projectOptions.Attributes ["OutputFile"] != null)
+			{
+				OutputFile = GetOptionAttribute (info, projectOptions, "OutputFile");
+			}
+
+			if (projectOptions.Attributes ["ExecuteFile"] != null)
+			{
+				ExecuteFile = GetOptionAttribute (info, projectOptions, "ExecuteFile");
 			}
 
 			ModuleName = info.ProjectName.Substring (0, 1).ToUpper () + info.ProjectName.Substring (1);

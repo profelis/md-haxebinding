@@ -2,17 +2,7 @@ using System;
 using System.IO;
 using MonoDevelop.HaxeBinding.Projects;
 
-namespace HaxeBinding {
-
-	public enum HaxeTarget {
-		Flash,
-		Js,
-		Neko,
-		Php,
-		Cpp,
-		Java,
-		Cs
-	}
+namespace MonoDevelop.HaxeBinding.Tools {
 
 	public class HxmlParser {
 

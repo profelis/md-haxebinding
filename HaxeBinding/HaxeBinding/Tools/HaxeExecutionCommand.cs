@@ -1,12 +1,20 @@
 using System;
 using MonoDevelop.Core.Execution;
 using System.Collections.Generic;
+using HaxeBinding;
 
-namespace MonoDevelop.HaxeBinding
+namespace MonoDevelop.HaxeBinding.Tools
 {
+
 	public class HaxeExecutionCommand : ProcessExecutionCommand
 	{
 		public Array Pathes;
+
+		public HaxeExecuteTarget HaxeExecuteTarget;
+		public HaxeTarget? HaxeTarget;
+		public OpenFLTarget? OpenFLTarget;
+
+		public bool DebugMode;
 
 		public HaxeExecutionCommand () : base()
 		{

@@ -11,7 +11,7 @@
 
     <Combine name="${ProjectName}" directory=".">
         <Project name="${ProjectName}" directory="." type="Haxe">
-            <Options TargetHXMLFile="${ProjectName}.hxml" />
+            <Options TargetHXMLFile="${ProjectName}.hxml" OutputFile="bin/${ProjectName}.jar" ExecuteFile="java -jar" />
             <Files>
                 <HaxeFile name="src/${ModuleName}.hx" AddStandardHeader="True">
 <![CDATA[package;

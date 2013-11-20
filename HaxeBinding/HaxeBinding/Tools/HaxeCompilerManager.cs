@@ -323,96 +323,50 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		private static ExecutionCommand CreateExecutionCommand (HaxeProject project, HaxeProjectConfiguration configuration)
+		private static HaxeExecutionCommand CreateExecutionCommand (HaxeProject project, HaxeProjectConfiguration configuration)
 		{
+			HaxeExecutionCommand cmd = new HaxeExecutionCommand ();
+			cmd.HaxeExecuteTarget = HaxeExecuteTarget.Haxe;
+			cmd.DebugMode = configuration.DebugMode;
+
 			string hxmlPath = Path.GetFullPath (project.TargetHXMLFile);
 			
-			if (!File.Exists (hxmlPath))
-			{
+			if (!File.Exists (hxmlPath)) {
 				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
 			}
 			
 			string hxmlCont = File.ReadAllText (hxmlPath);
 			HxmlParser hxml = new HxmlParser ();
 			hxml.Parse (hxmlCont);
+			cmd.HaxeTarget = hxml.Target;
 
-			string main = hxml.Main;
-			string output = hxml.Out;
 
-			switch (hxml.Target) {
-			case HaxeTarget.Cpp:
-			case HaxeTarget.Neko:
-				if (hxml.Target == HaxeTarget.Cpp) {
-					output = Path.Combine (output, main);
-					if (configuration.DebugMode) {
-						output += "-debug";
-					}
-				}
+			string output = project.OutputFile;
 
-				if (!File.Exists (Path.GetFullPath (output))) {
-					output = Path.Combine (project.BaseDirectory, output);
-				}
-
-				string exe = "";
-				string args = "";
-
-				if (hxml.Target == HaxeTarget.Cpp) {
-					exe = output;
-				} else {
-					exe = "neko";
-					args = "\"" + output + "\"";
-				}
-
-				//NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
-				HaxeExecutionCommand cmd = new HaxeExecutionCommand (exe);
-				cmd.Arguments = args;
-				cmd.WorkingDirectory = Path.GetDirectoryName (output);
-
-				if (configuration.DebugMode) {
-					//	cmd.EnvironmentVariables.Add ("HXCPP_DEBUG_HOST", "gdb");
-					cmd.EnvironmentVariables.Add ("HXCPP_DEBUG", "1");
-				}
-				//cmd.WorkingDirectory = project.BaseDirectory.FullPath;
-
-				//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Command);
-				//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Arguments);
-				//MonoDevelop.Ide.MessageService.ShowMessage (cmd.WorkingDirectory);
-
-				return cmd;
-
-			case HaxeTarget.Flash:
-			case HaxeTarget.Js:
-
-				if (!File.Exists (Path.GetFullPath (output))) {
-					output = Path.Combine (project.BaseDirectory, output);
-				}
-
-				if (hxml.Target == HaxeTarget.Js) {
-					output = Path.Combine (Path.GetDirectoryName (output), "index.html");
-				}
-
-				//string target = output;
-
-				switch (Environment.OSVersion.Platform) {
-				case PlatformID.MacOSX:
-					//target = "open \"" + output + "\"";
-					break;
-
-				case PlatformID.Unix:
-					//target = "xdg-open \"" + output + "\"";
-					break;
-				}
-
-				ProcessExecutionCommand cmd2 = new ProcessExecutionCommand ();
-				cmd2.Command = output;
-				return cmd2;
-
-			default:
-
-				break;
+			if (!output.StartsWith ("http://") && !File.Exists (Path.GetFullPath (output))) {
+				output = Path.Combine (project.BaseDirectory, output);
 			}
 
-			return null;
+			if (project.ExecuteFile.Length > 0) {
+				cmd.Command = project.ExecuteFile;
+				cmd.Arguments = "\"" + output + "\"";
+			} else {
+				cmd.Command = output;
+				cmd.Arguments = "";
+			}
+
+			cmd.Arguments += project.OutputArguments;
+
+			// cmd.WorkingDirectory = Path.GetDirectoryName (output);
+			cmd.WorkingDirectory = Path.GetDirectoryName (cmd.Command);
+
+			if (configuration.DebugMode) {
+				//	cmd.EnvironmentVariables.Add ("HXCPP_DEBUG_HOST", "gdb");
+				cmd.EnvironmentVariables.Add ("HXCPP_DEBUG", "1");
+			}
+			// output += "-debug";
+
+			return cmd;
 		}
 		
 		
@@ -420,24 +374,19 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			// need to optimize so this caches the result
 			
-			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
-			if (cmd == null)
-			{
+			HaxeExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+			if (cmd == null) {
 				return false;
 			}
-			else if (cmd is HaxeExecutionCommand)
-			{
-				return context.ExecutionHandler.CanExecute (cmd);
-			}
-			return true;
+			return configuration.DebugMode ? context.ExecutionHandler.CanExecute (cmd) : true;
 		}
 		
 
 		public static void Run (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
 		{
-			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
-			
-			if (cmd is HaxeExecutionCommand)
+			HaxeExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+
+			if (cmd.DebugMode && (cmd.HaxeTarget == HaxeTarget.Cpp || cmd.HaxeTarget == HaxeTarget.Neko))
 			{
 				IConsole console;
 				if (configuration.ExternalConsole)
@@ -472,10 +421,21 @@ namespace MonoDevelop.HaxeBinding.Tools
 					console.Dispose ();
 				}
 			}
-			//else
-			//{
-			//	Process.Start (cmd);
-			//}
+			else
+			{
+				Process p = new Process ();
+				p.StartInfo.Arguments = cmd.Arguments;
+				p.StartInfo.WorkingDirectory = cmd.WorkingDirectory;
+				p.StartInfo.FileName = cmd.Command;
+				//p.StartInfo.UseShellExecute = true;
+				p.Start ();
+				/*bool canExe = context.ExecutionHandler.CanExecute (cmd);
+				IConsole console = context.ConsoleFactory.CreateConsole(false);
+				IProcessAsyncOperation op = context.ExecutionHandler.Execute (cmd, console);
+				op.WaitForCompleted ();
+				console.Dispose ();*/
+				//Process.Start (cmd);
+			}
 		}
 		
 		

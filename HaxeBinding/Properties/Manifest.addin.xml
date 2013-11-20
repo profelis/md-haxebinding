@@ -95,6 +95,12 @@
 		</Condition>
 	</Extension>
 
+	<Extension path="/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Run">
+		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.HaxeProject">
+			<Section id="HaxeProjectOptionsPanel" _label="Haxe run" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectRunPanel" />
+		</Condition>
+	</Extension>
+
 	<Extension path="/MonoDevelop/ProjectModel/SerializableClasses">
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProject" />
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />

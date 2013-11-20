@@ -14,7 +14,7 @@ namespace MonoDevelop.HaxeBinding
 		// TODO: make "if OpenflExecutionCommand and HxcppExecution command"
 		public bool CanDebugCommand (ExecutionCommand command)
 		{
-			return true;
+			return true;//command is OpenFLExecutionCommand;
 		}
 
 		public DebuggerStartInfo CreateDebuggerStartInfo (ExecutionCommand command)

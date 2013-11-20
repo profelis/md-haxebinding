@@ -67,12 +67,16 @@ namespace MonoDevelop.HaxeBinding.Projects
 			OpenFLProjectConfiguration configuration;
 
 			string[] targets = new string[] { "Android", "BlackBerry", "Flash", "HTML5", "iOS", "Linux", "Mac", "webOS", "Windows" };
-			
-			foreach (string target in targets)
+			OpenFLTarget[] targetFlags = new OpenFLTarget[] { OpenFLTarget.Android, OpenFLTarget.BlackBerry, OpenFLTarget.Flash, OpenFLTarget.HTML5, OpenFLTarget.iOS, OpenFLTarget.Linux, OpenFLTarget.Mac, OpenFLTarget.webOS, OpenFLTarget.Windows };
+
+			for (int i=0; i < targets.Length; i++)
 			{
+				string target = targets [i];
+				OpenFLTarget targetFlag = targetFlags [i];
 				configuration = (OpenFLProjectConfiguration)CreateConfiguration ("Debug");
 				configuration.DebugMode = true;
 				configuration.Platform = target;
+				configuration.OpenFLTarget = targetFlag;
 				
 				if (target == "iOS")
 				{
@@ -81,12 +85,15 @@ namespace MonoDevelop.HaxeBinding.Projects
 				Configurations.Add (configuration);
 			}
 			
-			foreach (string target in targets)
+			for (int i=0; i < targets.Length; i++)
 			{
+				string target = targets [i];
+				OpenFLTarget targetFlag = targetFlags [i];
 				configuration = (OpenFLProjectConfiguration)CreateConfiguration ("Release");
 				configuration.DebugMode = false;
 				configuration.Platform = target;
-				
+				configuration.OpenFLTarget = targetFlag;
+
 				if (target == "iOS")
 				{
 					configuration.AdditionalArguments = "-simulator";

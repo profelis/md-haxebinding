@@ -84,7 +84,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			
 			if (mProject.TargetHXMLFile != "")
 			{
-				fc.SetFilename (mProject.TargetHXMLFile);
+				fc.SetFilename (System.IO.Path.Combine(mProject.BaseDirectory, mProject.TargetHXMLFile));
 			}
 			else
 			{
