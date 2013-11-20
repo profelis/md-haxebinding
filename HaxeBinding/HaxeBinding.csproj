@@ -138,14 +138,30 @@
     <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyOpenFLProjectXMLFile.xft.xml">
       <LogicalName>EmptyOpenFLProjectXMLFile.xft.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxMode.xml" />
-    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-16.png" />
-    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-22.png" />
-    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-24.png" />
-    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-32.png" />
-    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-16.png" />
-    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-32.png" />
-    <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxHighlightingMode.xml" />
+    <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxMode.xml">
+      <LogicalName>HaxeSyntaxMode.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-16.png">
+      <LogicalName>flashdevelop-icon-16.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-22.png">
+      <LogicalName>flashdevelop-icon-22.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-24.png">
+      <LogicalName>flashdevelop-icon-24.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-32.png">
+      <LogicalName>flashdevelop-icon-32.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-16.png">
+      <LogicalName>flashdevelop-overlay-16.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-32.png">
+      <LogicalName>flashdevelop-overlay-32.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxHighlightingMode.xml">
+      <LogicalName>HaxeSyntaxHighlightingMode.xml</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeCSProject.xpt.xml">
       <LogicalName>EmptyHaxeCSProject.xpt.xml</LogicalName>
     </EmbeddedResource>
