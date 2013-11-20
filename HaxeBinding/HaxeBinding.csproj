@@ -107,7 +107,8 @@
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
-    <Compile Include="HaxeBinding\Projects\Gui\HaxeConfigurationPanel.cs" />
+    <Compile Include="HaxeBinding\Tools\HxmlParser.cs" />
+    <Compile Include="HaxeBinding\Projects\Gui\HaxeProjectConfigurationPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml">
@@ -158,5 +159,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="HaxeBinding\" />
+    <Folder Include="HaxeBinding\Tools\Tools\" />
   </ItemGroup>
 </Project>
