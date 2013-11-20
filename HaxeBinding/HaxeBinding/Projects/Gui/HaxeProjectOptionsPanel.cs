@@ -68,13 +68,18 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			
 			Gtk.FileFilter filterHXML = new Gtk.FileFilter ();
 			filterHXML.Name = "HXML Files";
-			filterHXML.AddPattern ("*.nmml");
+			filterHXML.AddPattern ("*.hxml");
+
+			Gtk.FileFilter filterOpenfl = new Gtk.FileFilter ();
+			filterOpenfl.Name = "Openfl Project Files";
+			filterOpenfl.AddPattern ("*.xml");
 			
 			Gtk.FileFilter filterAll = new Gtk.FileFilter ();
 			filterAll.Name = "All Files";
 			filterAll.AddPattern ("*");
 			
 			fc.AddFilter (filterHXML);
+			fc.AddFilter (filterOpenfl);
 			fc.AddFilter (filterAll);
 			
 			if (mProject.TargetHXMLFile != "")

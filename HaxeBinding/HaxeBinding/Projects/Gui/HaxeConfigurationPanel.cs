@@ -7,7 +7,7 @@ using Gtk;
 namespace MonoDevelop.HaxeBinding.Projects.Gui
 {
 
-	public class HaxeOutputOptionsPanel : MultiConfigItemOptionsPanel
+	public class HaxeConfigurationPanel : MultiConfigItemOptionsPanel
 	{
 		private HaxeOutputOptionsWidget mWidget;
 

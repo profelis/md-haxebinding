@@ -90,11 +90,11 @@
 	
 	<Extension path="/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Build">
 		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.HaxeProject">
-			<Section id="HaxeProjectOptionsPanel" _label="General" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsPanel" />
-			<Section id="HaxeOutputOptionsPanel" _label="Output" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsPanel" />
+			<Section id="HaxeProjectOptionsPanel" _label="Haxe project" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsPanel" />
+			<Section id="HaxeConfigurationPanel" _label="Haxe configuration" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeConfigurationPanel" />
 		</Condition>
 	</Extension>
-	
+
 	<Extension path="/MonoDevelop/ProjectModel/SerializableClasses">
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProject" />
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />

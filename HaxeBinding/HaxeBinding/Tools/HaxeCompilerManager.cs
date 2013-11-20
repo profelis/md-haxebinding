@@ -63,6 +63,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			foreach (string hxmlArg in hxmlArgs)
 			{
+				if (hxmlArg.Length == 0)
+					continue;
 				if (createNext)
 				{
 					if (!hxmlArg.StartsWith ("-"))
@@ -378,6 +380,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			foreach (string hxmlArg in hxmlArgs)
 			{
+				if (hxmlArg.Length == 0)
+					continue;
 				if (addNext)
 				{
 					if (!hxmlArg.StartsWith ("-"))
@@ -410,7 +414,6 @@ namespace MonoDevelop.HaxeBinding.Tools
 						break;
 						
 					case "-swf":
-					case "-swf9":
 						platforms.Add ("flash");
 						break;
 					
@@ -424,6 +427,14 @@ namespace MonoDevelop.HaxeBinding.Tools
 						
 					case "-php":
 						platforms.Add ("php");
+						break;
+
+					case "-java":
+						platforms.Add ("java");
+						break;
+
+					case "-cs":
+						platforms.Add ("cs");
 						break;
 					
 					case "-main":
