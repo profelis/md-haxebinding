@@ -76,6 +76,7 @@
 	<Extension path="/MonoDevelop/ProjectModel/LanguageBindings">
 		<LanguageBinding id="Haxe" supportedextensions=".hx" class="MonoDevelop.HaxeBinding.Languages.HaxeLanguageBinding" />
 		<LanguageBinding id="HXML" supportedextensions=".hxml" class="MonoDevelop.HaxeBinding.Languages.HXMLLanguageBinding" />
+		<LanguageBinding id="OpenFL" supportedextensions=".xml" class="MonoDevelop.HaxeBinding.Languages.OpenFLLanguageBinding" />
 	</Extension>
 	
 	<Extension path="/MonoDevelop/Ide/GlobalOptionsDialog/Other">

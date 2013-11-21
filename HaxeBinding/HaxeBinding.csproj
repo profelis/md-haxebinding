@@ -112,6 +112,7 @@
     <Compile Include="HaxeBinding\Projects\Gui\HaxeProjectRunPanel.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectRunWidget.cs" />
     <Compile Include="HaxeBinding\Tools\Targets.cs" />
+    <Compile Include="HaxeBinding\Languages\OpenFLLanguageBinding.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml">
