@@ -7,13 +7,13 @@ using MonoDevelop.HaxeBinding.Tools;
 namespace MonoDevelop.HaxeBinding
 {
 
-	public class HaxeExecutionCommand : ProcessExecutionCommand
+	public class HaxeExecutionCommand : NativeExecutionCommand
 	{
 		public Array Pathes;
 
-		public HaxeProjectTarget HaxeExecuteTarget;
-		public HaxeTarget? HaxeTarget;
-		public OpenFLTarget? OpenFLTarget;
+		public HaxeProjectTarget haxeExecuteTarget;
+		public HaxeTarget? haxeTarget;
+		public OpenFLTarget? openFLTarget;
 
 		public bool DebugMode;
 

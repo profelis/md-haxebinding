@@ -317,11 +317,11 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static HaxeExecutionCommand CreateExecutionCommand (HaxeProject project, HaxeProjectConfiguration configuration)
 		{
 			HaxeExecutionCommand cmd = new HaxeExecutionCommand ();
-			cmd.HaxeExecuteTarget = HaxeProjectTarget.Haxe;
+			cmd.haxeExecuteTarget = HaxeProjectTarget.Haxe;
 			cmd.DebugMode = configuration.DebugMode;
 
 			HxmlParser hxml = project.getHxml (configuration);
-			cmd.HaxeTarget = hxml.Target;
+			cmd.haxeTarget = hxml.Target;
 
 			string output = project.OutputFile;
 
@@ -368,7 +368,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			HaxeExecutionCommand cmd = CreateExecutionCommand (project, configuration);
 
-			if (cmd.DebugMode && (cmd.HaxeTarget == HaxeTarget.Cpp || cmd.HaxeTarget == HaxeTarget.Neko))
+			if (cmd.DebugMode && (cmd.haxeTarget == HaxeTarget.Cpp || cmd.haxeTarget == HaxeTarget.Neko))
 			{
 				IConsole console;
 				if (configuration.ExternalConsole)

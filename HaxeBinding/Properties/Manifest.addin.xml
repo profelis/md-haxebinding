@@ -86,7 +86,6 @@
 	<!-- Projects -->
 	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
 		<ProjectBinding id="HaxeProject" class="MonoDevelop.HaxeBinding.Projects.HaxeProjectBinding" />
-		<ProjectBinding id="OpenFLProject" class="MonoDevelop.HaxeBinding.Projects.OpenFLProjectBinding" />
 	</Extension>
 	
 	<Extension path="/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Build">
@@ -104,7 +103,7 @@
 
 	<Extension path="/MonoDevelop/ProjectModel/SerializableClasses">
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProject" />
-		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />
+		<!--<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />-->
 	</Extension>
 	
 	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">

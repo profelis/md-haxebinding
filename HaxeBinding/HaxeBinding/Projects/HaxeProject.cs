@@ -22,7 +22,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 	[DataInclude(typeof(HaxeProjectConfiguration))]
     public class HaxeProject : Project
 	{
-		
+
+		// HaxeProjectOptionsPanel
 		[ItemProperty("AdditionalArguments", DefaultValue="")]
 		string mAdditionalArguments = string.Empty;
 
@@ -30,7 +31,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 			get { return mAdditionalArguments;  }
 			set { mAdditionalArguments = value; }
 		}
-		
+
+		// HaxeProjectOptionsPanel
 		[ItemProperty("BuildFile", DefaultValue="")]
 		string mBuildFile = string.Empty;
 		
@@ -44,10 +46,26 @@ namespace MonoDevelop.HaxeBinding.Projects
 				} else if (mBuildFile.EndsWith(".xml")) {
 					ProjectTarget = HaxeProjectTarget.OpenFL;
 				}
+				if (DefaultRun) {
+					updateDefaultRunConfig ((HaxeProjectConfiguration)GetConfiguration(DefaultConfigurationSelector.Default));
+				}
 			}
 		}
 
+		[ItemProperty("DefaultRun", DefaultValue="")]
+		bool mDefaultRun = false;
 
+		public bool DefaultRun {
+			get { return mDefaultRun; }
+			set {
+				mDefaultRun = value;
+				if (value) {
+					updateDefaultRunConfig ((HaxeProjectConfiguration)GetConfiguration(DefaultConfigurationSelector.Default));
+				}
+			}
+		}
+
+		// HaxeProjectRunPanel
 		[ItemProperty("OutputFile", DefaultValue="")]
 		string mOutputFile = string.Empty;
 
@@ -56,6 +74,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set { mOutputFile = value; }
 		}
 
+		// HaxeProjectRunPanel
 		[ItemProperty("ExecuteFile", DefaultValue="")]
 		string mExecuteFile = string.Empty;
 
@@ -63,7 +82,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 			get { return mExecuteFile; }
 			set { mExecuteFile = value; }
 		}
-		
+
+		// HaxeProjectRunPanel
 		[ItemProperty("OutputArguments", DefaultValue="")]
 		string mOutputArguments = string.Empty;
 
@@ -71,16 +91,15 @@ namespace MonoDevelop.HaxeBinding.Projects
 			get { return mOutputArguments; }
 			set { mOutputArguments = value; }
 		}
-
-		[ItemProperty("ProjectTarget", DefaultValue="")]
+		
 		HaxeProjectTarget mProjectTarget = HaxeProjectTarget.Haxe;
 
 		public HaxeProjectTarget ProjectTarget {
 			get { return mProjectTarget; }
 			set { 
-				if (mProjectTarget == value)
-					return;
 				mProjectTarget = value;
+
+				Configurations.Clear ();
 				HaxeProjectConfiguration configuration;
 
 				switch (mProjectTarget) {
@@ -176,12 +195,9 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 
 		public HaxeProject (ProjectCreateInformation info, XmlElement projectOptions) : base()
-		{
-			if (projectOptions.Attributes ["BuildFile"] != null)
-			{
-				BuildFile = GetOptionAttribute (info, projectOptions, "BuildFile");
-			}
-			
+		{	
+			ModuleName = info.ProjectName.Substring (0, 1).ToUpper () + info.ProjectName.Substring (1);
+
 			if (projectOptions.Attributes ["AdditionalArguments"] != null)
 			{
 				AdditionalArguments = GetOptionAttribute (info, projectOptions, "AdditionalArguments");
@@ -197,7 +213,25 @@ namespace MonoDevelop.HaxeBinding.Projects
 				ExecuteFile = GetOptionAttribute (info, projectOptions, "ExecuteFile");
 			}
 
-			ModuleName = info.ProjectName.Substring (0, 1).ToUpper () + info.ProjectName.Substring (1);
+			if (projectOptions.Attributes ["BuildFile"] != null)
+			{
+				mBuildFile = GetOptionAttribute (info, projectOptions, "BuildFile");
+			}
+
+			if (projectOptions.Attributes ["DefaultRun"] != null)
+			{
+				mDefaultRun = GetOptionAttribute (info, projectOptions, "DefaultRun") == "true";
+			}
+		}
+
+		protected override void OnEndLoad ()
+		{
+			bool defaultRun = mDefaultRun;
+			mDefaultRun = false;
+			BuildFile = mBuildFile;
+			DefaultRun = defaultRun;
+
+			base.OnEndLoad ();
 		}
 
 		protected string GetOptionAttribute (ProjectCreateInformation info, XmlElement projectOptions, string attributeName)
@@ -217,6 +251,9 @@ namespace MonoDevelop.HaxeBinding.Projects
 		protected override BuildResult DoBuild (IProgressMonitor monitor, ConfigurationSelector configurationSelector)
 		{
 			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
+			if (DefaultRun) {
+				updateDefaultRunConfig (haxeConfig);
+			}
 
 			switch (ProjectTarget) {
 			case HaxeProjectTarget.Haxe:
@@ -227,8 +264,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 				return null;
 			}
 		}
-		
-		
+
 		protected override void DoClean (IProgressMonitor monitor, ConfigurationSelector configuration)
 		{
 			switch (ProjectTarget) {
@@ -241,11 +277,13 @@ namespace MonoDevelop.HaxeBinding.Projects
 				break;
 			}
 		}
-		
-		
+
 		protected override void DoExecute (IProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
 			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
+			if (DefaultRun) {
+				updateDefaultRunConfig (haxeConfig);
+			}
 			pathes = HaxeCompilerManager.GetClassPaths (this, haxeConfig); // hxml need too?
 
 			switch (ProjectTarget) {
@@ -267,6 +305,9 @@ namespace MonoDevelop.HaxeBinding.Projects
 		protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
 			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
+			if (DefaultRun) {
+				updateDefaultRunConfig (haxeConfig);
+			}
 			switch (ProjectTarget) {
 			case HaxeProjectTarget.Haxe:
 				return HaxeCompilerManager.CanRun (this, haxeConfig, context);
@@ -300,6 +341,49 @@ namespace MonoDevelop.HaxeBinding.Projects
 			HxmlParser hxml = new HxmlParser ();
 			hxml.Parse (hxmlContent);
 			return hxml;
+		}
+
+		public void updateDefaultRunConfig(HaxeProjectConfiguration configuration) {
+			HxmlParser hxml = getHxml (configuration);
+			switch (ProjectTarget) {
+			case HaxeProjectTarget.OpenFL:
+				ExecuteFile = String.Empty;
+				OutputFile = BuildFile;
+				break;
+			case HaxeProjectTarget.Haxe:
+				// TODO: optimize
+				switch (hxml.Target) {
+				case HaxeTarget.Flash:
+					ExecuteFile = String.Empty;
+					OutputFile = hxml.Out;
+					break;
+				case HaxeTarget.Js:
+					ExecuteFile = String.Empty;
+					OutputFile = Path.Combine(hxml.Out, "index.html");
+					break;
+				case HaxeTarget.Cpp:
+					ExecuteFile = String.Empty;
+					OutputFile = Path.Combine (hxml.Out, Name);
+					break;
+				case HaxeTarget.Cs:
+					ExecuteFile = String.Empty;
+					OutputFile = Path.Combine (hxml.Out, Name);
+					break;
+				case HaxeTarget.Neko:
+					ExecuteFile = "neko";
+					OutputFile = hxml.Out;
+					break;
+				case HaxeTarget.Java:
+					ExecuteFile = "java -jar";
+					OutputFile = Path.Combine (hxml.Out, "java.jar");
+					break;
+				case HaxeTarget.Php:
+					ExecuteFile = String.Empty;
+					OutputFile = "http://127.0.0.1";
+					break;
+				}
+				break;
+			}
 		}
 
 

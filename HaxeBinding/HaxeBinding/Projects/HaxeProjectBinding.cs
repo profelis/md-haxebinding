@@ -16,7 +16,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 		public bool CanCreateSingleFileProject (string sourceFile)
 		{
 			return sourceFile.EndsWith (".hx", StringComparison.OrdinalIgnoreCase)
-                || sourceFile.EndsWith (".hxml", StringComparison.OrdinalIgnoreCase);
+                || sourceFile.EndsWith (".hxml", StringComparison.OrdinalIgnoreCase)
+				|| sourceFile.EndsWith (".xml", StringComparison.OrdinalIgnoreCase); // application.xml?
 		}
 		
 		

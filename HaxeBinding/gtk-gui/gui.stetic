@@ -323,7 +323,7 @@
                           <widget class="Gtk.Entry" id="TargetEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
+                            <property name="IsEditable">False</property>
                             <property name="InvisibleChar">•</property>
                           </widget>
                           <packing>
@@ -514,7 +514,28 @@
                       <placeholder />
                     </child>
                     <child>
-                      <placeholder />
+                      <widget class="Gtk.CheckButton" id="DefaultRunCheck">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Label" translatable="yes">default run</property>
+                        <property name="DrawIndicator">True</property>
+                        <property name="HasLabel">True</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="onDefaultBuildCheck" />
+                      </widget>
+                      <packing>
+                        <property name="LeftAttach">1</property>
+                        <property name="RightAttach">2</property>
+                        <property name="AutoSize">True</property>
+                        <property name="XOptions">Fill</property>
+                        <property name="YOptions">Fill</property>
+                        <property name="XExpand">False</property>
+                        <property name="XFill">True</property>
+                        <property name="XShrink">False</property>
+                        <property name="YExpand">False</property>
+                        <property name="YFill">True</property>
+                        <property name="YShrink">False</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="Gtk.Label" id="ExecuteLabel">
@@ -543,7 +564,7 @@
                           <widget class="Gtk.Entry" id="OutputEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
+                            <property name="IsEditable">False</property>
                             <property name="InvisibleChar">•</property>
                           </widget>
                           <packing>
@@ -591,7 +612,7 @@
                           <widget class="Gtk.Entry" id="ExecuteEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
+                            <property name="IsEditable">False</property>
                             <property name="InvisibleChar">●</property>
                           </widget>
                           <packing>

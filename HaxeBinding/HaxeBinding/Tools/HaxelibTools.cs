@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace HaxeBinding
+namespace MonoDevelop.HaxeBinding.Tools
 {
 	public class HaxelibTools
 	{
@@ -10,9 +10,13 @@ namespace HaxeBinding
 		{
 		}
 
-		// TODO: cache result
+		static Dictionary<string, List<string>> cache = new Dictionary<string, List<string>>();
+
 		public static List<string> GetLibraryPath(string library)
 		{
+			if (cache.ContainsKey (library)) {
+				return cache [library];
+			}
 			ProcessStartInfo info = new ProcessStartInfo ();
 
 			info.FileName = "haxe";
@@ -35,6 +39,7 @@ namespace HaxeBinding
 					libsPaths.Add (line);
 				}
 			}
+			cache.Add (library, libsPaths);
 			return libsPaths;
 		}
 	}

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using MonoDevelop.HaxeBinding.Projects;
+using MonoDevelop.HaxeBinding.Tools;
 using System.Collections.Generic;
 
 namespace MonoDevelop.HaxeBinding.Tools {

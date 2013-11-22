@@ -52,7 +52,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.TargetEntry = new global::Gtk.Entry ();
 			this.TargetEntry.CanFocus = true;
 			this.TargetEntry.Name = "TargetEntry";
-			this.TargetEntry.IsEditable = true;
+			this.TargetEntry.IsEditable = false;
 			this.TargetEntry.InvisibleChar = '•';
 			this.hbox1.Add (this.TargetEntry);
 			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.TargetEntry]));
