@@ -11,6 +11,7 @@ using MonoDevelop.Core.ProgressMonitoring;
 using MonoDevelop.Core.Serialization;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Projects;
+using MonoDevelop.HaxeBinding.Tools;
 
 
 namespace MonoDevelop.HaxeBinding.Projects
@@ -27,6 +28,29 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set { mAdditionalArguments = value; }
 		}
 
+		[ItemProperty("HaxeExecuteTarget", DefaultValue="")]
+		HaxeProjectTarget mHaxeProjectTarget;
+
+		public HaxeProjectTarget HaxeProjectTarget {
+			get { return mHaxeProjectTarget;  }
+			set { mHaxeProjectTarget = value; }
+		}
+
+		[ItemProperty("OpenFLTarget", DefaultValue="")]
+		OpenFLTarget? mOpenFLTarget;
+
+		public OpenFLTarget? OpenFLTarget {
+			get { return mOpenFLTarget;  }
+			set { mOpenFLTarget = value; }
+		}
+
+		[ItemProperty("HaxeTarget", DefaultValue="")]
+		HaxeTarget? mHaxeTarget;
+
+		public HaxeTarget? HaxeTarget {
+			get { return mHaxeTarget;  }
+			set { mHaxeTarget = value; }
+		}
 
 		public override void CopyFrom (ItemConfiguration configuration)
 		{
@@ -34,6 +58,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 			HaxeProjectConfiguration other = (HaxeProjectConfiguration)configuration;
 			mAdditionalArguments = other.mAdditionalArguments;
+			mOpenFLTarget = other.mOpenFLTarget;
 		}
 		
 	}

@@ -142,7 +142,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				mCacheTriggerOffset = completionContext.TriggerOffset;
 				File.WriteAllText (mTempFileName, Document.Editor.Text);
 				
-				string data = HaxeCompilerManager.GetCompletionData (Document.Project, mTempBaseDirectory, mTempFileName, mCacheTriggerOffset);
+				string data = HaxeCompilerManager.GetCompletionData ((HaxeProject)Document.Project, mTempBaseDirectory, mTempFileName, mCacheTriggerOffset);
 
 				//MonoDevelop.Ide.MessageService.ShowMessage (data);
 
@@ -551,7 +551,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		{
 			base.Initialize ();
 			
-			if (Document.HasProject && ((Document.Project is OpenFLProject) || (Document.Project is HaxeProject)))
+			if (Document.HasProject && ((Document.Project is HaxeProject)))
 			{
 				mCanRunCompletion = true;
 				

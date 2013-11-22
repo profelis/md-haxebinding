@@ -44,7 +44,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		{
 			mProject = project;
 			
-			TargetHXMLFileEntry.Text = mProject.TargetHXMLFile;
+			TargetEntry.Text = mProject.BuildFile;
 			AdditionalArgumentsEntry.Text = mProject.AdditionalArguments;
 		}
 
@@ -54,7 +54,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			if (mProject == null)
 				return;
 			
-			mProject.TargetHXMLFile = TargetHXMLFileEntry.Text.Trim ();
+			mProject.BuildFile = TargetEntry.Text.Trim ();
 			mProject.AdditionalArguments = AdditionalArgumentsEntry.Text.Trim ();
 		}
 
@@ -82,9 +82,9 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			fc.AddFilter (filterOpenfl);
 			fc.AddFilter (filterAll);
 			
-			if (mProject.TargetHXMLFile != "")
+			if (mProject.BuildFile != "")
 			{
-				fc.SetFilename (System.IO.Path.Combine(mProject.BaseDirectory, mProject.TargetHXMLFile));
+				fc.SetFilename (System.IO.Path.Combine(mProject.BaseDirectory, mProject.BuildFile));
 			}
 			else
 			{
@@ -95,7 +95,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			{
 				string path = PathHelper.ToRelativePath (fc.Filename, mProject.BaseDirectory);
 				
-				TargetHXMLFileEntry.Text = path;
+				TargetEntry.Text = path;
 			}
 
 			fc.Destroy ();

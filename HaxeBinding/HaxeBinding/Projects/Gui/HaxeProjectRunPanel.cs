@@ -67,7 +67,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			Gtk.FileChooserDialog fc =
 				new Gtk.FileChooserDialog ("Select file", this.Toplevel as Gtk.Window, FileChooserAction.Open,
                     "Cancel", ResponseType.Cancel,
-                    "Select", ResponseType.Accept);
+					"Ok", ResponseType.Accept);
 			
 
 			Gtk.FileFilter filterAll = new Gtk.FileFilter ();
@@ -92,6 +92,10 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			fc.Destroy ();
 		}
 		
+		protected void onCustomProgramSelect (object sender, EventArgs e)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 	
 }

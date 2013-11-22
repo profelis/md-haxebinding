@@ -105,13 +105,10 @@
 	<Extension path="/MonoDevelop/ProjectModel/SerializableClasses">
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProject" />
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />
-		<DataType class="MonoDevelop.HaxeBinding.Projects.OpenFLProject" />
-		<DataType class="MonoDevelop.HaxeBinding.Projects.OpenFLProjectConfiguration" />
 	</Extension>
 	
 	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
 		<SolutionItem type="MonoDevelop.HaxeBinding.Projects.HaxeProject" extension="hxproj" guid="{73443E56-3503-11DE-B03D-001DBA02A2FC}"/>
-		<SolutionItem type="MonoDevelop.HaxeBinding.Projects.OpenFLProject" extension="oflproj" guid="{9344BDBB-3E7f-41FC-A0DD-8665D75EE146}"/>
 	</Extension>
 	
 	<!-- Code Completion -->

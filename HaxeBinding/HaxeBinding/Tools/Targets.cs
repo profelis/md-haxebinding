@@ -12,7 +12,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		Cs
 	}
 
-	public enum HaxeExecuteTarget {
+	public enum HaxeProjectTarget {
 		OpenFL,
 		Haxe
 	}

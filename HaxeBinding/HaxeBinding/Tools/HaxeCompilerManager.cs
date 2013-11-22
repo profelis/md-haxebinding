@@ -48,17 +48,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			string exe = "haxe";
 			//string args = project.TargetHXMLFile;
-			
-			string hxmlPath = Path.GetFullPath (project.TargetHXMLFile);
-			
-			if (!File.Exists (hxmlPath))
-			{
-				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
-			}
 
-			string hxmlContent = File.ReadAllText (hxmlPath);
-			HxmlParser hxml = new HxmlParser ();
-			hxml.Parse (hxmlContent);
+			HxmlParser hxml = project.getHxml (configuration);
 			hxml.GetProjectPath (project, true);
 
 			string args = hxml.Args;
@@ -175,7 +166,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		public static string GetCompletionData (Project project, string classPath, string fileName, int position)
+		public static string GetCompletionData (HaxeProject project, string classPath, string fileName, int position)
 		{
 			if (!PropertyService.HasValue ("HaxeBinding.EnableCompilationServer"))
 			{
@@ -187,12 +178,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 			string exe = "haxe";
 			string args = "";
 
-			if (project is OpenFLProject) {
+			if (project.ProjectTarget == HaxeProjectTarget.OpenFL) {
 				
-				OpenFLProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as OpenFLProjectConfiguration;
+				HaxeProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as HaxeProjectConfiguration;
 				
 				string platform = configuration.Platform.ToLower ();
-				string path = ((OpenFLProject)project).TargetProjectXMLFile;
+				string path = project.BuildFile;
 				
 				if (!File.Exists (path))
 				{
@@ -201,22 +192,22 @@ namespace MonoDevelop.HaxeBinding.Tools
 				
 				DateTime time = File.GetLastWriteTime (Path.GetFullPath (path));
 				
-				if (!time.Equals (cacheNMMLTime) || platform != cachePlatform || configuration.AdditionalArguments != cacheArgumentsPlatform || ((OpenFLProject)project).AdditionalArguments != cacheArgumentsGlobal)
+				if (!time.Equals (cacheNMMLTime) || platform != cachePlatform || configuration.AdditionalArguments != cacheArgumentsPlatform || project.AdditionalArguments != cacheArgumentsGlobal)
 				{
-					cacheHXML = OpenFLCommandLineToolsManager.GetHXMLData ((OpenFLProject)project, configuration).Replace (Environment.NewLine, " ");
+					cacheHXML = OpenFLCommandLineToolsManager.GetHXMLData (project, configuration).Replace (Environment.NewLine, " ");
 					cacheNMMLTime = time;
 					cachePlatform = platform;
-					cacheArgumentsGlobal = ((OpenFLProject)project).AdditionalArguments;
+					cacheArgumentsGlobal = project.AdditionalArguments;
 					cacheArgumentsPlatform = configuration.AdditionalArguments;
 				}
 				
 				args = cacheHXML + " -D code_completion";
 				
-			} else if (project is HaxeProject) {
+			} else if (project.ProjectTarget == HaxeProjectTarget.Haxe) {
 				
 				HaxeProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as HaxeProjectConfiguration;
 				
-				args = "\"" + ((HaxeProject)project).TargetHXMLFile + "\" " + ((HaxeProject)project).AdditionalArguments + " " + configuration.AdditionalArguments;
+				args = "\"" + ((HaxeProject)project).BuildFile + "\" " + ((HaxeProject)project).AdditionalArguments + " " + configuration.AdditionalArguments;
 				
 			} else {
 				
@@ -326,20 +317,11 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static HaxeExecutionCommand CreateExecutionCommand (HaxeProject project, HaxeProjectConfiguration configuration)
 		{
 			HaxeExecutionCommand cmd = new HaxeExecutionCommand ();
-			cmd.HaxeExecuteTarget = HaxeExecuteTarget.Haxe;
+			cmd.HaxeExecuteTarget = HaxeProjectTarget.Haxe;
 			cmd.DebugMode = configuration.DebugMode;
 
-			string hxmlPath = Path.GetFullPath (project.TargetHXMLFile);
-			
-			if (!File.Exists (hxmlPath)) {
-				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
-			}
-			
-			string hxmlCont = File.ReadAllText (hxmlPath);
-			HxmlParser hxml = new HxmlParser ();
-			hxml.Parse (hxmlCont);
+			HxmlParser hxml = project.getHxml (configuration);
 			cmd.HaxeTarget = hxml.Target;
-
 
 			string output = project.OutputFile;
 
@@ -469,6 +451,19 @@ namespace MonoDevelop.HaxeBinding.Tools
 					compilationServer.CloseMainWindow ();
 				}
 			} catch (Exception) {}
+		}
+
+		public static List<string> GetClassPaths(HaxeProject project, HaxeProjectConfiguration configuration)
+		{
+			List<string> paths = new List<string> ();
+			HxmlParser hxml = project.getHxml (configuration);
+			foreach (string lib in hxml.Libs) {
+				paths.AddRange(HaxelibTools.GetLibraryPath(lib));
+			}
+			foreach (string path in hxml.ClassPaths) {
+				paths.Add(Path.Combine(project.BaseDirectory, path));
+			}
+			return paths;
 		}
 		
 	}
