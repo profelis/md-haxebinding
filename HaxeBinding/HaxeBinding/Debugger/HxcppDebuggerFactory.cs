@@ -21,8 +21,8 @@ namespace MonoDevelop.HaxeBinding
 		{
 			NativeExecutionCommand pec = (NativeExecutionCommand) command;
 			HxcppDebuggerStartInfo startInfo = new HxcppDebuggerStartInfo ();
-			if (command is OpenFLExecutionCommand) {
-				startInfo.Pathes = ((OpenFLExecutionCommand)command).Pathes;
+			if (command is HaxeExecutionCommand) {
+				startInfo.Pathes = ((HaxeExecutionCommand)command).Pathes;
 			} else {
 				startInfo.Pathes = new string[0];
 			}

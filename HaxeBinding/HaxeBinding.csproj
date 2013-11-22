@@ -109,7 +109,6 @@
     <Compile Include="HaxeBinding\Tools\Targets.cs" />
     <Compile Include="HaxeBinding\Languages\OpenFLLanguageBinding.cs" />
     <Compile Include="HaxeBinding\Tools\HXMLParser.cs" />
-    <Compile Include="HaxeBinding\Tools\OpenFLExecutionCommand.cs" />
     <Compile Include="HaxeBinding\Tools\HaxelibTools.cs" />
   </ItemGroup>
   <ItemGroup>

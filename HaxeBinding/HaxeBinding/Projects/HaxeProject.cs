@@ -246,17 +246,16 @@ namespace MonoDevelop.HaxeBinding.Projects
 		protected override void DoExecute (IProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
 			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
+			pathes = HaxeCompilerManager.GetClassPaths (this, haxeConfig); // hxml need too?
+
 			switch (ProjectTarget) {
 			case HaxeProjectTarget.Haxe:
 				HaxeCompilerManager.Run (this, haxeConfig, monitor, context);
 				break;
 			case HaxeProjectTarget.OpenFL:
-				pathes.Clear ();
-				pathes = HaxeCompilerManager.GetClassPaths (this, haxeConfig);
 				OpenFLCommandLineToolsManager.Run (this, haxeConfig, monitor, context);
 				break;
 			}
-
 		}
 		
 		public override bool IsCompileable (string fileName)

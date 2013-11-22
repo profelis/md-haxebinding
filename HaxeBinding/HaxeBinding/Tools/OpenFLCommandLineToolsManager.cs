@@ -264,7 +264,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 
 			//NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
-			OpenFLExecutionCommand cmd = new OpenFLExecutionCommand (exe);
+			HaxeExecutionCommand cmd = new HaxeExecutionCommand (exe);
 			cmd.Arguments = args;
 			cmd.WorkingDirectory = project.BaseDirectory.FullPath;
 			cmd.Pathes = project.pathes.ToArray();
