@@ -47,7 +47,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 					ProjectTarget = HaxeProjectTarget.OpenFL;
 				}
 				if (DefaultRun) {
-					updateDefaultRunConfig ((HaxeProjectConfiguration)GetConfiguration(DefaultConfigurationSelector.Default));
+					updateDefaultRunConfig ((HaxeProjectConfiguration)DefaultConfiguration);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set {
 				mDefaultRun = value;
 				if (value) {
-					updateDefaultRunConfig ((HaxeProjectConfiguration)GetConfiguration(DefaultConfigurationSelector.Default));
+					updateDefaultRunConfig ((HaxeProjectConfiguration)DefaultConfiguration);
 				}
 			}
 		}
@@ -164,11 +164,13 @@ namespace MonoDevelop.HaxeBinding.Projects
 					configuration = (HaxeProjectConfiguration)CreateConfiguration ("Debug");
 					configuration.DebugMode = true;
 					configuration.HaxeProjectTarget = HaxeProjectTarget.Haxe;
+					configuration.Platform = "Haxe";
 					Configurations.Add (configuration);
 
 					configuration = (HaxeProjectConfiguration)CreateConfiguration ("Release");
 					configuration.DebugMode = false;
 					configuration.HaxeProjectTarget = HaxeProjectTarget.Haxe;
+					configuration.Platform = "Haxe";
 					Configurations.Add (configuration);
 					break;
 				}
@@ -215,7 +217,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 			if (projectOptions.Attributes ["BuildFile"] != null)
 			{
-				mBuildFile = GetOptionAttribute (info, projectOptions, "BuildFile");
+				BuildFile = GetOptionAttribute (info, projectOptions, "BuildFile");
 			}
 
 			if (projectOptions.Attributes ["DefaultRun"] != null)
@@ -226,10 +228,10 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 		protected override void OnEndLoad ()
 		{
-			bool defaultRun = mDefaultRun;
+			bool dr = mDefaultRun;
 			mDefaultRun = false;
 			BuildFile = mBuildFile;
-			DefaultRun = defaultRun;
+			DefaultRun = dr;
 
 			base.OnEndLoad ();
 		}

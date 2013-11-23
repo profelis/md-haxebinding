@@ -325,7 +325,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 			string output = project.OutputFile;
 
-			if (!output.StartsWith ("http://") && !File.Exists (Path.GetFullPath (output))) {
+			if (output.Length > 0 && !output.StartsWith ("http://") && !File.Exists (Path.GetFullPath (output))) {
 				output = Path.Combine (project.BaseDirectory, output);
 			}
 
@@ -340,7 +340,9 @@ namespace MonoDevelop.HaxeBinding.Tools
 			cmd.Arguments += project.OutputArguments;
 
 			// cmd.WorkingDirectory = Path.GetDirectoryName (output);
-			cmd.WorkingDirectory = Path.GetDirectoryName (cmd.Command);
+			if (cmd.Command.Length > 0) {
+				cmd.WorkingDirectory = Path.GetDirectoryName (cmd.Command);
+			}
 
 			if (configuration.DebugMode) {
 				//	cmd.EnvironmentVariables.Add ("HXCPP_DEBUG_HOST", "gdb");
