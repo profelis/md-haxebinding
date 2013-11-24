@@ -17,7 +17,7 @@ using MonoDevelop.HaxeBinding.Tools;
 namespace MonoDevelop.HaxeBinding.Projects
 {
 
-	[DataInclude(typeof(OpenFLProjectConfiguration))]
+	//[DataInclude(typeof(OpenFLProjectConfiguration))]
     public class OpenFLProject : Project
 	{
 		
@@ -64,7 +64,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 				AdditionalArguments = GetOptionAttribute (info, projectOptions, "AdditionalArguments");
 			}
 			
-			OpenFLProjectConfiguration configuration;
+			HaxeProjectConfiguration configuration;
 
 			string[] targets = new string[] { "Android", "BlackBerry", "Flash", "HTML5", "iOS", "Linux", "Mac", "webOS", "Windows" };
 			OpenFLTarget[] targetFlags = new OpenFLTarget[] { OpenFLTarget.Android, OpenFLTarget.BlackBerry, OpenFLTarget.Flash, OpenFLTarget.HTML5, OpenFLTarget.iOS, OpenFLTarget.Linux, OpenFLTarget.Mac, OpenFLTarget.webOS, OpenFLTarget.Windows };
@@ -73,7 +73,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			{
 				string target = targets [i];
 				OpenFLTarget targetFlag = targetFlags [i];
-				configuration = (OpenFLProjectConfiguration)CreateConfiguration ("Debug");
+				configuration = (HaxeProjectConfiguration)CreateConfiguration ("Debug");
 				configuration.DebugMode = true;
 				configuration.Platform = target;
 				configuration.OpenFLTarget = targetFlag;
@@ -89,7 +89,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			{
 				string target = targets [i];
 				OpenFLTarget targetFlag = targetFlags [i];
-				configuration = (OpenFLProjectConfiguration)CreateConfiguration ("Release");
+				configuration = (HaxeProjectConfiguration)CreateConfiguration ("Release");
 				configuration.DebugMode = false;
 				configuration.Platform = target;
 				configuration.OpenFLTarget = targetFlag;
@@ -106,7 +106,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 		
 		public override SolutionItemConfiguration CreateConfiguration (string name)
 		{
-			OpenFLProjectConfiguration conf = new OpenFLProjectConfiguration ();
+			HaxeProjectConfiguration conf = new HaxeProjectConfiguration ();
 			conf.Name = name;
 			return conf;
 		}
@@ -114,21 +114,21 @@ namespace MonoDevelop.HaxeBinding.Projects
 		
 		protected override BuildResult DoBuild (IProgressMonitor monitor, ConfigurationSelector configurationSelector)
 		{
-			OpenFLProjectConfiguration haxeConfig = (OpenFLProjectConfiguration)GetConfiguration (configurationSelector);
+			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
 			return OpenFLCommandLineToolsManager.Compile (this, haxeConfig, monitor);
 		}
 		
 		
 		protected override void DoClean (IProgressMonitor monitor, ConfigurationSelector configurationSelector)
 		{
-			OpenFLProjectConfiguration haxeConfig = (OpenFLProjectConfiguration)GetConfiguration (configurationSelector);
+			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
 			OpenFLCommandLineToolsManager.Clean (this, haxeConfig, monitor);
 		}
 		
 		
 		protected override void DoExecute (IProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
-			OpenFLProjectConfiguration haxeConfig = (OpenFLProjectConfiguration)GetConfiguration (configurationSelector);
+			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
 			pathes.Clear ();
 			pathes = OpenFLCommandLineToolsManager.GetClassPatches (this, haxeConfig);
 			OpenFLCommandLineToolsManager.Run (this, haxeConfig, monitor, context);

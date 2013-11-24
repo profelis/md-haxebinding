@@ -44,7 +44,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		{
 			mProject = project;
 			
-			TargetHXMLFileEntry.Text = mProject.TargetHXMLFile;
+			TargetEntry.Text = mProject.BuildFile;
 			AdditionalArgumentsEntry.Text = mProject.AdditionalArguments;
 		}
 
@@ -53,9 +53,10 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		{
 			if (mProject == null)
 				return;
-			
-			mProject.TargetHXMLFile = TargetHXMLFileEntry.Text.Trim ();
+
 			mProject.AdditionalArguments = AdditionalArgumentsEntry.Text.Trim ();
+			mProject.BuildFile = TargetEntry.Text.Trim ();
+
 		}
 
 		
@@ -64,27 +65,23 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			Gtk.FileChooserDialog fc =
                 new Gtk.FileChooserDialog ("Target HXML file", this.Toplevel as Gtk.Window, FileChooserAction.Open,
                     "Cancel", ResponseType.Cancel,
-                    "Select", ResponseType.Accept);
+					"Ok", ResponseType.Accept);
 			
-			Gtk.FileFilter filterHXML = new Gtk.FileFilter ();
-			filterHXML.Name = "HXML Files";
-			filterHXML.AddPattern ("*.hxml");
-
-			Gtk.FileFilter filterOpenfl = new Gtk.FileFilter ();
-			filterOpenfl.Name = "Openfl Project Files";
-			filterOpenfl.AddPattern ("*.xml");
+			Gtk.FileFilter filterHaxe = new Gtk.FileFilter ();
+			filterHaxe.Name = "HXML/OpenFL Files";
+			filterHaxe.AddPattern ("*.hxml");
+			filterHaxe.AddPattern ("*.xml");
 			
 			Gtk.FileFilter filterAll = new Gtk.FileFilter ();
 			filterAll.Name = "All Files";
 			filterAll.AddPattern ("*");
 			
-			fc.AddFilter (filterHXML);
-			fc.AddFilter (filterOpenfl);
+			fc.AddFilter (filterHaxe);
 			fc.AddFilter (filterAll);
 			
-			if (mProject.TargetHXMLFile != "")
+			if (mProject.BuildFile != "")
 			{
-				fc.SetFilename (System.IO.Path.Combine(mProject.BaseDirectory, mProject.TargetHXMLFile));
+				fc.SetFilename (System.IO.Path.Combine(mProject.BaseDirectory, mProject.BuildFile));
 			}
 			else
 			{
@@ -95,12 +92,13 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			{
 				string path = PathHelper.ToRelativePath (fc.Filename, mProject.BaseDirectory);
 				
-				TargetHXMLFileEntry.Text = path;
+				TargetEntry.Text = path;
+				Store ();
+				Load (mProject);
 			}
 
 			fc.Destroy ();
 		}
-		
 	}
 	
 }

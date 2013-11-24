@@ -8,6 +8,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		private global::Gtk.Frame frame1;
 		private global::Gtk.Alignment GtkAlignment;
 		private global::Gtk.Table table1;
+		private global::Gtk.CheckButton DefaultRunCheck;
 		private global::Gtk.Label ExecuteLabel;
 		private global::Gtk.HBox hbox1;
 		private global::Gtk.Entry OutputEntry;
@@ -16,13 +17,13 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		private global::Gtk.Entry ExecuteEntry;
 		private global::Gtk.Button ExecuteFileButton;
 		private global::Gtk.Label OutputLabel;
-		private global::Gtk.Label GtkLabel1;
+		private global::Gtk.Label GtkLabel2;
 		private global::Gtk.Frame frame2;
-		private global::Gtk.Alignment GtkAlignment2;
+		private global::Gtk.Alignment GtkAlignment3;
 		private global::Gtk.Table table2;
 		private global::Gtk.Entry AdditionalArgumentsEntry;
 		private global::Gtk.Label AdditionalArgumentsLabel;
-		private global::Gtk.Label GtkLabel2;
+		private global::Gtk.Label GtkLabel3;
 
 		protected virtual void Build ()
 		{
@@ -44,20 +45,33 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.GtkAlignment.LeftPadding = ((uint)(12));
 			this.GtkAlignment.TopPadding = ((uint)(12));
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
+			this.table1 = new global::Gtk.Table (((uint)(4)), ((uint)(2)), false);
 			this.table1.Name = "table1";
 			this.table1.RowSpacing = ((uint)(6));
 			this.table1.ColumnSpacing = ((uint)(12));
+			// Container child table1.Gtk.Table+TableChild
+			this.DefaultRunCheck = new global::Gtk.CheckButton ();
+			this.DefaultRunCheck.CanFocus = true;
+			this.DefaultRunCheck.Name = "DefaultRunCheck";
+			this.DefaultRunCheck.Label = global::Mono.Unix.Catalog.GetString ("default run");
+			this.DefaultRunCheck.DrawIndicator = true;
+			this.DefaultRunCheck.UseUnderline = true;
+			this.table1.Add (this.DefaultRunCheck);
+			global::Gtk.Table.TableChild w1 = ((global::Gtk.Table.TableChild)(this.table1 [this.DefaultRunCheck]));
+			w1.LeftAttach = ((uint)(1));
+			w1.RightAttach = ((uint)(2));
+			w1.XOptions = ((global::Gtk.AttachOptions)(4));
+			w1.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.ExecuteLabel = new global::Gtk.Label ();
 			this.ExecuteLabel.Name = "ExecuteLabel";
 			this.ExecuteLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Custom program");
 			this.table1.Add (this.ExecuteLabel);
-			global::Gtk.Table.TableChild w1 = ((global::Gtk.Table.TableChild)(this.table1 [this.ExecuteLabel]));
-			w1.TopAttach = ((uint)(1));
-			w1.BottomAttach = ((uint)(2));
-			w1.XOptions = ((global::Gtk.AttachOptions)(4));
-			w1.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.ExecuteLabel]));
+			w2.TopAttach = ((uint)(2));
+			w2.BottomAttach = ((uint)(3));
+			w2.XOptions = ((global::Gtk.AttachOptions)(4));
+			w2.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.hbox1 = new global::Gtk.HBox ();
 			this.hbox1.Name = "hbox1";
@@ -66,29 +80,31 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.OutputEntry = new global::Gtk.Entry ();
 			this.OutputEntry.CanFocus = true;
 			this.OutputEntry.Name = "OutputEntry";
-			this.OutputEntry.IsEditable = true;
+			this.OutputEntry.IsEditable = false;
 			this.OutputEntry.InvisibleChar = '•';
 			this.hbox1.Add (this.OutputEntry);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.OutputEntry]));
-			w2.Position = 0;
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.OutputEntry]));
+			w3.Position = 0;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.OutputFileButton = new global::Gtk.Button ();
 			this.OutputFileButton.CanFocus = true;
 			this.OutputFileButton.Name = "OutputFileButton";
 			this.OutputFileButton.Label = global::Mono.Unix.Catalog.GetString ("Browse...");
-			global::Gtk.Image w3 = new global::Gtk.Image ();
-			w3.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-file", global::Gtk.IconSize.Menu);
-			this.OutputFileButton.Image = w3;
+			global::Gtk.Image w4 = new global::Gtk.Image ();
+			w4.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-file", global::Gtk.IconSize.Menu);
+			this.OutputFileButton.Image = w4;
 			this.hbox1.Add (this.OutputFileButton);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.OutputFileButton]));
-			w4.Position = 1;
-			w4.Expand = false;
-			w4.Fill = false;
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.OutputFileButton]));
+			w5.Position = 1;
+			w5.Expand = false;
+			w5.Fill = false;
 			this.table1.Add (this.hbox1);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox1]));
-			w5.LeftAttach = ((uint)(1));
-			w5.RightAttach = ((uint)(2));
-			w5.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox1]));
+			w6.TopAttach = ((uint)(1));
+			w6.BottomAttach = ((uint)(2));
+			w6.LeftAttach = ((uint)(1));
+			w6.RightAttach = ((uint)(2));
+			w6.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.hbox2 = new global::Gtk.HBox ();
 			this.hbox2.Name = "hbox2";
@@ -97,62 +113,64 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.ExecuteEntry = new global::Gtk.Entry ();
 			this.ExecuteEntry.CanFocus = true;
 			this.ExecuteEntry.Name = "ExecuteEntry";
-			this.ExecuteEntry.IsEditable = true;
+			this.ExecuteEntry.IsEditable = false;
 			this.ExecuteEntry.InvisibleChar = '●';
 			this.hbox2.Add (this.ExecuteEntry);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.ExecuteEntry]));
-			w6.Position = 0;
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.ExecuteEntry]));
+			w7.Position = 0;
 			// Container child hbox2.Gtk.Box+BoxChild
 			this.ExecuteFileButton = new global::Gtk.Button ();
 			this.ExecuteFileButton.CanFocus = true;
 			this.ExecuteFileButton.Name = "ExecuteFileButton";
 			this.ExecuteFileButton.UseUnderline = true;
 			this.ExecuteFileButton.Label = global::Mono.Unix.Catalog.GetString ("Browse...");
-			global::Gtk.Image w7 = new global::Gtk.Image ();
-			w7.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-execute", global::Gtk.IconSize.Menu);
-			this.ExecuteFileButton.Image = w7;
+			global::Gtk.Image w8 = new global::Gtk.Image ();
+			w8.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-execute", global::Gtk.IconSize.Menu);
+			this.ExecuteFileButton.Image = w8;
 			this.hbox2.Add (this.ExecuteFileButton);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.ExecuteFileButton]));
-			w8.Position = 1;
-			w8.Expand = false;
-			w8.Fill = false;
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.ExecuteFileButton]));
+			w9.Position = 1;
+			w9.Expand = false;
+			w9.Fill = false;
 			this.table1.Add (this.hbox2);
-			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox2]));
-			w9.TopAttach = ((uint)(1));
-			w9.BottomAttach = ((uint)(2));
-			w9.LeftAttach = ((uint)(1));
-			w9.RightAttach = ((uint)(2));
-			w9.XOptions = ((global::Gtk.AttachOptions)(4));
-			w9.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox2]));
+			w10.TopAttach = ((uint)(2));
+			w10.BottomAttach = ((uint)(3));
+			w10.LeftAttach = ((uint)(1));
+			w10.RightAttach = ((uint)(2));
+			w10.XOptions = ((global::Gtk.AttachOptions)(4));
+			w10.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.OutputLabel = new global::Gtk.Label ();
 			this.OutputLabel.Name = "OutputLabel";
 			this.OutputLabel.Xalign = 0F;
 			this.OutputLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("File or URL");
 			this.table1.Add (this.OutputLabel);
-			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1 [this.OutputLabel]));
-			w10.XOptions = ((global::Gtk.AttachOptions)(4));
-			w10.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table1 [this.OutputLabel]));
+			w11.TopAttach = ((uint)(1));
+			w11.BottomAttach = ((uint)(2));
+			w11.XOptions = ((global::Gtk.AttachOptions)(4));
+			w11.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment.Add (this.table1);
 			this.frame1.Add (this.GtkAlignment);
-			this.GtkLabel1 = new global::Gtk.Label ();
-			this.GtkLabel1.Name = "GtkLabel1";
-			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Run</b>");
-			this.GtkLabel1.UseMarkup = true;
-			this.frame1.LabelWidget = this.GtkLabel1;
+			this.GtkLabel2 = new global::Gtk.Label ();
+			this.GtkLabel2.Name = "GtkLabel2";
+			this.GtkLabel2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Run</b>");
+			this.GtkLabel2.UseMarkup = true;
+			this.frame1.LabelWidget = this.GtkLabel2;
 			this.vbox1.Add (this.frame1);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
-			w13.Position = 0;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
+			w14.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frame2 = new global::Gtk.Frame ();
 			this.frame2.Name = "frame2";
 			this.frame2.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frame2.Gtk.Container+ContainerChild
-			this.GtkAlignment2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment2.Name = "GtkAlignment2";
-			this.GtkAlignment2.LeftPadding = ((uint)(12));
-			this.GtkAlignment2.TopPadding = ((uint)(12));
-			// Container child GtkAlignment2.Gtk.Container+ContainerChild
+			this.GtkAlignment3 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.GtkAlignment3.Name = "GtkAlignment3";
+			this.GtkAlignment3.LeftPadding = ((uint)(12));
+			this.GtkAlignment3.TopPadding = ((uint)(12));
+			// Container child GtkAlignment3.Gtk.Container+ContainerChild
 			this.table2 = new global::Gtk.Table (((uint)(1)), ((uint)(2)), false);
 			this.table2.Name = "table2";
 			this.table2.RowSpacing = ((uint)(6));
@@ -164,37 +182,39 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.AdditionalArgumentsEntry.IsEditable = true;
 			this.AdditionalArgumentsEntry.InvisibleChar = '•';
 			this.table2.Add (this.AdditionalArgumentsEntry);
-			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsEntry]));
-			w14.LeftAttach = ((uint)(1));
-			w14.RightAttach = ((uint)(2));
-			w14.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsEntry]));
+			w15.LeftAttach = ((uint)(1));
+			w15.RightAttach = ((uint)(2));
+			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.AdditionalArgumentsLabel = new global::Gtk.Label ();
 			this.AdditionalArgumentsLabel.Name = "AdditionalArgumentsLabel";
 			this.AdditionalArgumentsLabel.Xalign = 0F;
 			this.AdditionalArgumentsLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Additional arguments:");
 			this.table2.Add (this.AdditionalArgumentsLabel);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsLabel]));
-			w15.XOptions = ((global::Gtk.AttachOptions)(4));
-			w15.YOptions = ((global::Gtk.AttachOptions)(4));
-			this.GtkAlignment2.Add (this.table2);
-			this.frame2.Add (this.GtkAlignment2);
-			this.GtkLabel2 = new global::Gtk.Label ();
-			this.GtkLabel2.Name = "GtkLabel2";
-			this.GtkLabel2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Options</b>");
-			this.GtkLabel2.UseMarkup = true;
-			this.frame2.LabelWidget = this.GtkLabel2;
+			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsLabel]));
+			w16.XOptions = ((global::Gtk.AttachOptions)(4));
+			w16.YOptions = ((global::Gtk.AttachOptions)(4));
+			this.GtkAlignment3.Add (this.table2);
+			this.frame2.Add (this.GtkAlignment3);
+			this.GtkLabel3 = new global::Gtk.Label ();
+			this.GtkLabel3.Name = "GtkLabel3";
+			this.GtkLabel3.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Options</b>");
+			this.GtkLabel3.UseMarkup = true;
+			this.frame2.LabelWidget = this.GtkLabel3;
 			this.vbox1.Add (this.frame2);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
-			w18.Position = 1;
-			w18.Expand = false;
-			w18.Fill = false;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
+			w19.Position = 1;
+			w19.Expand = false;
+			w19.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
+			this.ExecuteFileButton.Clicked += new global::System.EventHandler (this.onCustomProgramSelect);
 			this.OutputFileButton.Clicked += new global::System.EventHandler (this.OnOutputButtonClicked);
+			this.DefaultRunCheck.Toggled += new global::System.EventHandler (this.onDefaultBuildCheck);
 		}
 	}
 }

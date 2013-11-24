@@ -11,11 +11,11 @@
     </TemplateConfiguration>
 
     <TemplateFiles>
-        <File DefaultExtension=".nmml" DefaultName="project">
+        <HaxeFile DefaultExtension=".nmml" DefaultName="project">
 <![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <project>
 	<meta title="${ProjectName}" package="mycompany.myapp" version="1.0.0" company="${AuthorCompany}" />
-	<app path="Export" main="${SafeProjectName}" file="${SafeProjectName}" />
+	<app path="Export" main="${ModuleName}" file="${ProjectName}" />
 
 	<source path="Source" />
 	
@@ -23,7 +23,7 @@
 	
 	<assets path="Assets" rename="assets" include="*" exclude="openfl.svg" />
 	<icon path="Assets/openfl.svg" />
-</project>]]></File>
+</project>]]></HaxeFile>
     </TemplateFiles>
     
     <FileOptions/>

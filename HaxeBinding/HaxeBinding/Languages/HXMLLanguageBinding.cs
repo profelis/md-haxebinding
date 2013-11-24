@@ -13,11 +13,10 @@ namespace MonoDevelop.HaxeBinding.Languages
 	public class HXMLLanguageBinding : ILanguageBinding
 	{
 		
-		public string BlockCommentEndTag { get { return "-->"; } }
-		public string BlockCommentStartTag { get { return "<!--"; } }
-		public string CommentTag { get { return null; } }
+		public string BlockCommentEndTag { get { return null; } }
+		public string BlockCommentStartTag { get { return null; } }
 		public string Language { get { return "HXML"; } }
-		public string SingleLineCommentTag { get { return null; } }
+		public string SingleLineCommentTag { get { return "#"; } }
 		
 		
 		public FilePath GetFileName (FilePath baseName)

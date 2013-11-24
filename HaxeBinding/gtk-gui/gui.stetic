@@ -8,7 +8,6 @@
     <widget-library name="MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral" />
     <widget-library name="Mono.TextEditor, Version=1.0.0.0, Culture=neutral" />
     <widget-library name="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral" />
-    <widget-library name="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral" />
     <widget-library name="../bin/Debug/HaxeBinding.dll" internal="true" />
   </import>
   <widget class="Gtk.Bin" id="MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget" design-size="461 339">
@@ -321,10 +320,10 @@
                         <property name="MemberName" />
                         <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.Entry" id="TargetHXMLFileEntry">
+                          <widget class="Gtk.Entry" id="TargetEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
+                            <property name="IsEditable">False</property>
                             <property name="InvisibleChar">•</property>
                           </widget>
                           <packing>
@@ -333,12 +332,12 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="TargetHXMLFileButton">
+                          <widget class="Gtk.Button" id="TargetButton">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Type">TextAndIcon</property>
                             <property name="Icon">stock:gtk-file Menu</property>
-                            <property name="Label" translatable="yes">Choose...</property>
+                            <property name="Label" translatable="yes">Browse...</property>
                             <signal name="Clicked" handler="OnTargetHXMLFileButtonClicked" />
                           </widget>
                           <packing>
@@ -363,10 +362,10 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="TargetHXMLFileLabel">
+                      <widget class="Gtk.Label" id="TargetLabel">
                         <property name="MemberName" />
                         <property name="Xalign">0</property>
-                        <property name="LabelProp" translatable="yes">Target HXML file:</property>
+                        <property name="LabelProp" translatable="yes">HXML or OpenFL xml</property>
                       </widget>
                       <packing>
                         <property name="AutoSize">True</property>
@@ -387,7 +386,7 @@
             <child>
               <widget class="Gtk.Label" id="GtkLabel1">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">&lt;b&gt;Code Generation&lt;/b&gt;</property>
+                <property name="LabelProp" translatable="yes">&lt;b&gt;Project&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
               </widget>
               <packing>
@@ -501,7 +500,7 @@
                 <child>
                   <widget class="Gtk.Table" id="table1">
                     <property name="MemberName" />
-                    <property name="NRows">3</property>
+                    <property name="NRows">4</property>
                     <property name="NColumns">2</property>
                     <property name="RowSpacing">6</property>
                     <property name="ColumnSpacing">12</property>
@@ -512,13 +511,40 @@
                       <placeholder />
                     </child>
                     <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <widget class="Gtk.CheckButton" id="DefaultRunCheck">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Label" translatable="yes">default run</property>
+                        <property name="DrawIndicator">True</property>
+                        <property name="HasLabel">True</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Toggled" handler="onDefaultBuildCheck" />
+                      </widget>
+                      <packing>
+                        <property name="LeftAttach">1</property>
+                        <property name="RightAttach">2</property>
+                        <property name="AutoSize">True</property>
+                        <property name="XOptions">Fill</property>
+                        <property name="YOptions">Fill</property>
+                        <property name="XExpand">False</property>
+                        <property name="XFill">True</property>
+                        <property name="XShrink">False</property>
+                        <property name="YExpand">False</property>
+                        <property name="YFill">True</property>
+                        <property name="YShrink">False</property>
+                      </packing>
+                    </child>
+                    <child>
                       <widget class="Gtk.Label" id="ExecuteLabel">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">Custom program</property>
                       </widget>
                       <packing>
-                        <property name="TopAttach">1</property>
-                        <property name="BottomAttach">2</property>
+                        <property name="TopAttach">2</property>
+                        <property name="BottomAttach">3</property>
                         <property name="AutoSize">True</property>
                         <property name="XOptions">Fill</property>
                         <property name="YOptions">Fill</property>
@@ -538,7 +564,7 @@
                           <widget class="Gtk.Entry" id="OutputEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
+                            <property name="IsEditable">False</property>
                             <property name="InvisibleChar">•</property>
                           </widget>
                           <packing>
@@ -564,6 +590,8 @@
                         </child>
                       </widget>
                       <packing>
+                        <property name="TopAttach">1</property>
+                        <property name="BottomAttach">2</property>
                         <property name="LeftAttach">1</property>
                         <property name="RightAttach">2</property>
                         <property name="AutoSize">False</property>
@@ -584,7 +612,7 @@
                           <widget class="Gtk.Entry" id="ExecuteEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
+                            <property name="IsEditable">False</property>
                             <property name="InvisibleChar">●</property>
                           </widget>
                           <packing>
@@ -600,6 +628,7 @@
                             <property name="Icon">stock:gtk-execute Menu</property>
                             <property name="Label" translatable="yes">Browse...</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="onCustomProgramSelect" />
                           </widget>
                           <packing>
                             <property name="Position">1</property>
@@ -610,8 +639,8 @@
                         </child>
                       </widget>
                       <packing>
-                        <property name="TopAttach">1</property>
-                        <property name="BottomAttach">2</property>
+                        <property name="TopAttach">2</property>
+                        <property name="BottomAttach">3</property>
                         <property name="LeftAttach">1</property>
                         <property name="RightAttach">2</property>
                         <property name="AutoSize">True</property>
@@ -632,6 +661,8 @@
                         <property name="LabelProp" translatable="yes">File or URL</property>
                       </widget>
                       <packing>
+                        <property name="TopAttach">1</property>
+                        <property name="BottomAttach">2</property>
                         <property name="AutoSize">True</property>
                         <property name="XOptions">Fill</property>
                         <property name="YOptions">Fill</property>
@@ -648,7 +679,7 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel1">
+              <widget class="Gtk.Label" id="GtkLabel2">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Run&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
@@ -668,7 +699,7 @@
             <property name="MemberName" />
             <property name="ShadowType">None</property>
             <child>
-              <widget class="Gtk.Alignment" id="GtkAlignment2">
+              <widget class="Gtk.Alignment" id="GtkAlignment3">
                 <property name="MemberName" />
                 <property name="Xalign">0</property>
                 <property name="Yalign">0</property>
@@ -723,7 +754,7 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel2">
+              <widget class="Gtk.Label" id="GtkLabel3">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Options&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>

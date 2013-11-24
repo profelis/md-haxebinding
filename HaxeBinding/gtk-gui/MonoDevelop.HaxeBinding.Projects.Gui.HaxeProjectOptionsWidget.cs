@@ -9,9 +9,9 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		private global::Gtk.Alignment GtkAlignment;
 		private global::Gtk.Table table1;
 		private global::Gtk.HBox hbox1;
-		private global::Gtk.Entry TargetHXMLFileEntry;
-		private global::Gtk.Button TargetHXMLFileButton;
-		private global::Gtk.Label TargetHXMLFileLabel;
+		private global::Gtk.Entry TargetEntry;
+		private global::Gtk.Button TargetButton;
+		private global::Gtk.Label TargetLabel;
 		private global::Gtk.Label GtkLabel1;
 		private global::Gtk.Frame frame2;
 		private global::Gtk.Alignment GtkAlignment2;
@@ -49,24 +49,24 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.TargetHXMLFileEntry = new global::Gtk.Entry ();
-			this.TargetHXMLFileEntry.CanFocus = true;
-			this.TargetHXMLFileEntry.Name = "TargetHXMLFileEntry";
-			this.TargetHXMLFileEntry.IsEditable = true;
-			this.TargetHXMLFileEntry.InvisibleChar = '•';
-			this.hbox1.Add (this.TargetHXMLFileEntry);
-			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.TargetHXMLFileEntry]));
+			this.TargetEntry = new global::Gtk.Entry ();
+			this.TargetEntry.CanFocus = true;
+			this.TargetEntry.Name = "TargetEntry";
+			this.TargetEntry.IsEditable = false;
+			this.TargetEntry.InvisibleChar = '•';
+			this.hbox1.Add (this.TargetEntry);
+			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.TargetEntry]));
 			w1.Position = 0;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.TargetHXMLFileButton = new global::Gtk.Button ();
-			this.TargetHXMLFileButton.CanFocus = true;
-			this.TargetHXMLFileButton.Name = "TargetHXMLFileButton";
-			this.TargetHXMLFileButton.Label = global::Mono.Unix.Catalog.GetString ("Choose...");
+			this.TargetButton = new global::Gtk.Button ();
+			this.TargetButton.CanFocus = true;
+			this.TargetButton.Name = "TargetButton";
+			this.TargetButton.Label = global::Mono.Unix.Catalog.GetString ("Browse...");
 			global::Gtk.Image w2 = new global::Gtk.Image ();
 			w2.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-file", global::Gtk.IconSize.Menu);
-			this.TargetHXMLFileButton.Image = w2;
-			this.hbox1.Add (this.TargetHXMLFileButton);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.TargetHXMLFileButton]));
+			this.TargetButton.Image = w2;
+			this.hbox1.Add (this.TargetButton);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.TargetButton]));
 			w3.Position = 1;
 			w3.Expand = false;
 			w3.Fill = false;
@@ -76,19 +76,19 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			w4.RightAttach = ((uint)(2));
 			w4.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.TargetHXMLFileLabel = new global::Gtk.Label ();
-			this.TargetHXMLFileLabel.Name = "TargetHXMLFileLabel";
-			this.TargetHXMLFileLabel.Xalign = 0F;
-			this.TargetHXMLFileLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Target HXML file:");
-			this.table1.Add (this.TargetHXMLFileLabel);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.TargetHXMLFileLabel]));
+			this.TargetLabel = new global::Gtk.Label ();
+			this.TargetLabel.Name = "TargetLabel";
+			this.TargetLabel.Xalign = 0F;
+			this.TargetLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("HXML or OpenFL xml");
+			this.table1.Add (this.TargetLabel);
+			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.TargetLabel]));
 			w5.XOptions = ((global::Gtk.AttachOptions)(4));
 			w5.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment.Add (this.table1);
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel1 = new global::Gtk.Label ();
 			this.GtkLabel1.Name = "GtkLabel1";
-			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Code Generation</b>");
+			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Project</b>");
 			this.GtkLabel1.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel1;
 			this.vbox1.Add (this.frame1);
@@ -145,7 +145,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
-			this.TargetHXMLFileButton.Clicked += new global::System.EventHandler (this.OnTargetHXMLFileButtonClicked);
+			this.TargetButton.Clicked += new global::System.EventHandler (this.OnTargetHXMLFileButtonClicked);
 		}
 	}
 }

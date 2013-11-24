@@ -32,12 +32,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static Regex mErrorSimple = new Regex (@"^(?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		private static Regex mErrorIgnore = new Regex (@"^(Updated|Recompile|Reason|Files changed):.*", RegexOptions.Compiled);
 
-		public static void Clean (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor)
+		public static void Clean (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			ProcessStartInfo info = new ProcessStartInfo ();
 			
 			info.FileName = "haxe";
-			info.Arguments = " --run tools.haxelib.Main run openfl clean \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			info.Arguments = " --run tools.haxelib.Main run openfl clean \"" + project.BuildFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
 			info.UseShellExecute = false;
 			info.RedirectStandardOutput = true;
 			info.RedirectStandardError = true;
@@ -52,9 +52,9 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 
 
-		public static BuildResult Compile (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor)
+		public static BuildResult Compile (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor)
 		{
-			string args = " --run tools.haxelib.Main run openfl build \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower ();
+			string args = " --run tools.haxelib.Main run openfl build \"" + project.BuildFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
 			{
@@ -96,7 +96,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		private static BuildError CreateErrorFromString (OpenFLProject project, string text)
+		private static BuildError CreateErrorFromString (HaxeProject project, string text)
 		{
 			Match match = mErrorIgnore.Match (text);
 			if (match.Success)
@@ -180,12 +180,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		public static string GetHXMLData (OpenFLProject project, OpenFLProjectConfiguration configuration)
+		public static string GetHXMLData (HaxeProject project, HaxeProjectConfiguration configuration)
 		{
 			ProcessStartInfo info = new ProcessStartInfo ();
 			
 			info.FileName = "haxe";
-			info.Arguments = "--run tools.haxelib.Main run openfl update \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			//info.Arguments = "--run tools.haxelib.Main run openfl update \"" + project.BuildFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
 			info.UseShellExecute = false;
 			info.RedirectStandardOutput = true;
 			info.RedirectStandardError = true;
@@ -193,12 +193,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 			//info.WindowStyle = ProcessWindowStyle.Hidden;
 			info.CreateNoWindow = true;
 			
-			using (Process process = Process.Start (info))
+			/*using (Process process = Process.Start (info))
 			{
 				process.WaitForExit ();
-			}
+			}*/
 			
-			info.Arguments = " --run tools.haxelib.Main run openfl display \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			info.Arguments = " --run tools.haxelib.Main run openfl display \"" + project.BuildFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
 			
 			using (Process process = Process.Start (info))
 			{
@@ -208,34 +208,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 		}
 
-		private static List<string> GetLibraryPath(string library)
-		{
-			ProcessStartInfo info = new ProcessStartInfo ();
-
-			info.FileName = "haxe";
-			info.Arguments = "--run tools.haxelib.Main path " + library;
-			info.UseShellExecute = false;
-			info.RedirectStandardOutput = true;
-			info.RedirectStandardError = true;
-			//info.WindowStyle = ProcessWindowStyle.Hidden;
-			info.CreateNoWindow = true;
-			string data;
-			using (Process process = Process.Start (info))
-			{
-				data = process.StandardOutput.ReadToEnd ();
-				process.WaitForExit ();
-			}
-			var libsPathes = new List<string> ();
-			var dataList = data.Split (Environment.NewLine.ToCharArray());
-			foreach (string line in dataList) {
-				if (!line.StartsWith ("-D ") && !line.StartsWith ("-L ")) {
-					libsPathes.Add (line);
-				}
-			}
-			return libsPathes;
-		}
-
-		static BuildResult ParseOutput (OpenFLProject project, string stderr)
+		static BuildResult ParseOutput (HaxeProject project, string stderr)
 		{
 			BuildResult result = new BuildResult ();
 
@@ -248,7 +221,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		static void ParserOutputFile (OpenFLProject project, BuildResult result, StringBuilder output, string filename)
+		static void ParserOutputFile (HaxeProject project, BuildResult result, StringBuilder output, string filename)
 		{
 			StreamReader reader = File.OpenText (filename);
 
@@ -270,10 +243,10 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		private static ExecutionCommand CreateExecutionCommand (OpenFLProject project, OpenFLProjectConfiguration configuration)
+		private static ExecutionCommand CreateExecutionCommand (HaxeProject project, HaxeProjectConfiguration configuration)
 		{
 			string exe = "haxe";
-			string args = "--run tools.haxelib.Main run openfl run \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower ();
+			string args = "--run tools.haxelib.Main run openfl run \"" + project.BuildFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
 			{
@@ -291,7 +264,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 
 			//NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
-			OpenFLExecutionCommand cmd = new OpenFLExecutionCommand (exe);
+			HaxeExecutionCommand cmd = new HaxeExecutionCommand (exe);
 			cmd.Arguments = args;
 			cmd.WorkingDirectory = project.BaseDirectory.FullPath;
 			cmd.Pathes = project.pathes.ToArray();
@@ -300,7 +273,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		public static bool CanRun (OpenFLProject project, OpenFLProjectConfiguration configuration, ExecutionContext context)
+		public static bool CanRun (HaxeProject project, HaxeProjectConfiguration configuration, ExecutionContext context)
 		{
 			ExecutionCommand cmd = (NativeExecutionCommand)CreateExecutionCommand (project, configuration);
 			if (cmd == null)
@@ -310,7 +283,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			return context.ExecutionHandler.CanExecute (cmd);
 		}
 
-		public static void Run (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
+		public static void Run (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
 		{
 			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
 			IConsole console;
@@ -342,25 +315,6 @@ namespace MonoDevelop.HaxeBinding.Tools
 				operationMonitor.Dispose ();
 				console.Dispose ();
 			}
-		}
-
-		public static List<string> GetClassPatches(OpenFLProject project, OpenFLProjectConfiguration configuration)
-		{
-			List<string> patches = new List<string> ();
-			List<string> libs = new List<string> ();
-			string data = GetHXMLData (project, configuration);
-			string[] dataList = data.Split (Environment.NewLine.ToCharArray());
-			foreach (string line in dataList) {
-				if (line.StartsWith ("-lib ")) {
-					libs.Add (line.Substring (5));
-				} else if (line.StartsWith ("-cp ")) {
-					patches.Add (project.BaseDirectory + "/" + line.Substring (4));
-				}
-			}
-			foreach (string lib in libs) {
-				patches.AddRange (GetLibraryPath (lib));
-			}
-			return patches;
 		}
 	}
 }

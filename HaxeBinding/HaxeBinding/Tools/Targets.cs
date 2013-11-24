@@ -2,6 +2,7 @@ using System;
 
 namespace MonoDevelop.HaxeBinding.Tools
 {
+	[Flags]
 	public enum HaxeTarget {
 		Flash,
 		Js,
@@ -12,11 +13,13 @@ namespace MonoDevelop.HaxeBinding.Tools
 		Cs
 	}
 
-	public enum HaxeExecuteTarget {
+	[Flags]
+	public enum HaxeProjectTarget {
 		OpenFL,
 		Haxe
 	}
 
+	[Flags]
 	public enum OpenFLTarget {
 		Android, 
 		BlackBerry,
