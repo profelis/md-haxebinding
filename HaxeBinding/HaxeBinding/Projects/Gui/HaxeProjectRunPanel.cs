@@ -141,5 +141,6 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			OutputFileButton.Sensitive = !DefaultRunCheck.Active;
 		}
 	}
-	
+	// TODO: checkbox make editable
+	// TODO: check validate
 }

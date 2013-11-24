@@ -15,6 +15,8 @@ using MonoDevelop.Projects;
 using MonoDevelop.HaxeBinding.Tools;
 using HaxeBinding;
 
+// TODO: compiler managers (Haxe and OpenFL) make with Similar interface
+// TODO: and create link to one of the fabrics
 
 namespace MonoDevelop.HaxeBinding.Projects
 {

@@ -21,7 +21,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 	{
 
 		// HaxeProjectConfigurationPanel
-		//[ItemProperty("AdditionalArguments", DefaultValue="")]
+		[ItemProperty("AdditionalArguments", DefaultValue="")]
 		string mAdditionalArguments = string.Empty;
 
 		public string AdditionalArguments {
@@ -29,7 +29,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set { mAdditionalArguments = value; }
 		}
 
-		//[ItemProperty("HaxeExecuteTarget", DefaultValue="")]
+		[ItemProperty("HaxeExecuteTarget", DefaultValue="")]
 		HaxeProjectTarget mHaxeProjectTarget;
 
 		public HaxeProjectTarget HaxeProjectTarget {
@@ -37,7 +37,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set { mHaxeProjectTarget = value; }
 		}
 
-		//[ItemProperty("OpenFLTarget", DefaultValue="")]
+		[ItemProperty("OpenFLTarget", DefaultValue="")]
 		OpenFLTarget? mOpenFLTarget = null;
 
 		public OpenFLTarget? OpenFLTarget {
@@ -45,7 +45,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set { mOpenFLTarget = value; }
 		}
 
-		//[ItemProperty("HaxeTarget", DefaultValue="")]
+		[ItemProperty("HaxeTarget", DefaultValue="")]
 		HaxeTarget? mHaxeTarget = null;
 
 		public HaxeTarget? HaxeTarget {

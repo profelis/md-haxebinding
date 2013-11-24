@@ -14,6 +14,7 @@ using MonoDevelop.Projects;
 using MonoDevelop.HaxeBinding.Projects;
 using HaxeBinding;
 
+// TODO: haxe compiler server to separate file
 
 namespace MonoDevelop.HaxeBinding.Tools
 {

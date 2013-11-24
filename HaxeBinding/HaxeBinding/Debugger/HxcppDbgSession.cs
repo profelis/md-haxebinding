@@ -14,6 +14,9 @@ using MonoDevelop.HaxeBinding.Projects;
 using MonoDevelop.HaxeBinding.Tools;
 using System.Text.RegularExpressions;
 
+//TODO: full names in stacktrace
+//TODO: manual for debugging 
+
 namespace MonoDevelop.HaxeBinding
 {
 	public struct Break

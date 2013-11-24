@@ -61,29 +61,40 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.TargetButton = new global::Gtk.Button ();
 			this.TargetButton.CanFocus = true;
 			this.TargetButton.Name = "TargetButton";
-			this.TargetButton.Label = global::Mono.Unix.Catalog.GetString ("Browse...");
-			global::Gtk.Image w2 = new global::Gtk.Image ();
-			w2.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-file", global::Gtk.IconSize.Menu);
-			this.TargetButton.Image = w2;
+			// Container child TargetButton.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w2 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w3 = new global::Gtk.HBox ();
+			w3.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w4 = new global::Gtk.Image ();
+			w4.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-file", global::Gtk.IconSize.Menu);
+			w3.Add (w4);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w6 = new global::Gtk.Label ();
+			w6.LabelProp = global::Mono.Unix.Catalog.GetString ("Browse...");
+			w3.Add (w6);
+			w2.Add (w3);
+			this.TargetButton.Add (w2);
 			this.hbox1.Add (this.TargetButton);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.TargetButton]));
-			w3.Position = 1;
-			w3.Expand = false;
-			w3.Fill = false;
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.TargetButton]));
+			w10.Position = 1;
+			w10.Expand = false;
+			w10.Fill = false;
 			this.table1.Add (this.hbox1);
-			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox1]));
-			w4.LeftAttach = ((uint)(1));
-			w4.RightAttach = ((uint)(2));
-			w4.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox1]));
+			w11.LeftAttach = ((uint)(1));
+			w11.RightAttach = ((uint)(2));
+			w11.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.TargetLabel = new global::Gtk.Label ();
 			this.TargetLabel.Name = "TargetLabel";
 			this.TargetLabel.Xalign = 0F;
 			this.TargetLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("HXML or OpenFL xml");
 			this.table1.Add (this.TargetLabel);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.TargetLabel]));
-			w5.XOptions = ((global::Gtk.AttachOptions)(4));
-			w5.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table1 [this.TargetLabel]));
+			w12.XOptions = ((global::Gtk.AttachOptions)(4));
+			w12.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment.Add (this.table1);
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel1 = new global::Gtk.Label ();
@@ -92,8 +103,8 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.GtkLabel1.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel1;
 			this.vbox1.Add (this.frame1);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
-			w8.Position = 0;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
+			w15.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frame2 = new global::Gtk.Frame ();
 			this.frame2.Name = "frame2";
@@ -115,19 +126,19 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.AdditionalArgumentsEntry.IsEditable = true;
 			this.AdditionalArgumentsEntry.InvisibleChar = '•';
 			this.table2.Add (this.AdditionalArgumentsEntry);
-			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsEntry]));
-			w9.LeftAttach = ((uint)(1));
-			w9.RightAttach = ((uint)(2));
-			w9.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsEntry]));
+			w16.LeftAttach = ((uint)(1));
+			w16.RightAttach = ((uint)(2));
+			w16.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.AdditionalArgumentsLabel = new global::Gtk.Label ();
 			this.AdditionalArgumentsLabel.Name = "AdditionalArgumentsLabel";
 			this.AdditionalArgumentsLabel.Xalign = 0F;
 			this.AdditionalArgumentsLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Additional arguments:");
 			this.table2.Add (this.AdditionalArgumentsLabel);
-			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsLabel]));
-			w10.XOptions = ((global::Gtk.AttachOptions)(4));
-			w10.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table2 [this.AdditionalArgumentsLabel]));
+			w17.XOptions = ((global::Gtk.AttachOptions)(4));
+			w17.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment2.Add (this.table2);
 			this.frame2.Add (this.GtkAlignment2);
 			this.GtkLabel2 = new global::Gtk.Label ();
@@ -136,10 +147,10 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.GtkLabel2.UseMarkup = true;
 			this.frame2.LabelWidget = this.GtkLabel2;
 			this.vbox1.Add (this.frame2);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
+			w20.Position = 1;
+			w20.Expand = false;
+			w20.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

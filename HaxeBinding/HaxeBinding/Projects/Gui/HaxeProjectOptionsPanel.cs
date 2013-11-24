@@ -69,8 +69,8 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			
 			Gtk.FileFilter filterHaxe = new Gtk.FileFilter ();
 			filterHaxe.Name = "HXML/OpenFL Files";
-			filterHaxe.AddPattern ("*.hxml");
-			filterHaxe.AddPattern ("*.xml");
+			filterHaxe.AddPattern ("*.hxml"); // TODO: change filter depending of project type
+			filterHaxe.AddPattern ("*.xml"); // TODO: also change Label for HXML or OpenFL project
 			
 			Gtk.FileFilter filterAll = new Gtk.FileFilter ();
 			filterAll.Name = "All Files";
