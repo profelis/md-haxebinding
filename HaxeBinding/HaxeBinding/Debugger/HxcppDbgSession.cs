@@ -14,7 +14,6 @@ using MonoDevelop.HaxeBinding.Projects;
 using MonoDevelop.HaxeBinding.Tools;
 using System.Text.RegularExpressions;
 
-//TODO: full names in stacktrace
 //TODO: manual for debugging 
 
 namespace MonoDevelop.HaxeBinding
@@ -41,13 +40,13 @@ namespace MonoDevelop.HaxeBinding
 		Thread reciever;
 		Thread appthread;
 
+		bool manualPaused = false;
+		bool breaksInited = false;
+
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
 		public Array classPathes = null;
 		bool running = false;
 
-		//object debuggerLock = new object ();
-		//public object syncLock = new object ();
-		//public object backtraceLock = new object ();
 		public bool waitForVars = false;
 
 		WaitHandle[] syncHandle = new WaitHandle[] { new AutoResetEvent (false) };
@@ -67,21 +66,22 @@ namespace MonoDevelop.HaxeBinding
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
 			Console.WriteLine ("in OnRun of debug session");
-			//lock (debuggerLock) {
-				// TODO: add for haxe projects too
-				if (startInfo is HxcppDebuggerStartInfo) {
-					LogWriter (false, "It's hxcpp\n");
-					classPathes = ((HxcppDebuggerStartInfo)startInfo).Pathes;
-				} else {
-					LogWriter (false, "It's not hxcpp\n");
-					classPathes = new string[0];
-				}
-				CreateDebugger ();
-				StartDebugger ();
-				StartProcess (startInfo);
-				running = true;
-				OnStarted ();
-			//}
+			// TODO: add for haxe projects too
+			if (startInfo is HxcppDebuggerStartInfo) {
+				LogWriter (false, "It's hxcpp\n");
+				classPathes = ((HxcppDebuggerStartInfo)startInfo).Paths;
+			} else {
+				LogWriter (false, "It's not hxcpp\n");
+				classPathes = new string[0];
+			}
+			manualPaused = false;
+         	breaksInited = false;
+			breaks.Clear ();
+			CreateDebugger ();
+			StartDebugger ();
+			StartProcess (startInfo);
+			running = true;
+			OnStarted ();
 		}
 
 		private void StartProcess(DebuggerStartInfo startInfo)
@@ -177,10 +177,9 @@ namespace MonoDevelop.HaxeBinding
 
 			BreakEventInfo bi = new BreakEventInfo ();
 
-			//lock (debuggerLock) {
-				LogWriter(false, "Location is " + PathHelper.CutOffClassPath(classPathes, bp.FileName) + ":" + bp.Line + '\n');
-				breaks.Add (new Break (PathHelper.CutOffClassPath (classPathes, bp.FileName), bp.Line));
-			//}
+
+			LogWriter(false, "Location is " + PathHelper.CutOffClassPath(classPathes, bp.FileName) + ":" + bp.Line + '\n');
+			breaks.Add (new Break (PathHelper.CutOffClassPath (classPathes, bp.FileName), bp.Line));
 
 			//bi.Handle = TODO: add returned success value (break count etc)
 			bi.SetStatus (BreakEventStatus.Bound, null);
@@ -228,6 +227,17 @@ namespace MonoDevelop.HaxeBinding
 			List<ThreadInfo> threads = new List<ThreadInfo> ();
 			threads.Add(new ThreadInfo(processId, 0, "Main thread (dummy)", "Main loop"));
 			return threads.ToArray();
+		}
+
+		void InitBreaks()
+		{
+			foreach(Break breakpoint in breaks)
+			{
+				RunCommand (true, "break " + breakpoint.filename + ":" + breakpoint.line);
+			}
+			breaksInited = true;
+			RunCommand (false, "continue");
+			this.OnContinue ();
 		}
 
 		void StopDebugger()
@@ -288,9 +298,7 @@ namespace MonoDevelop.HaxeBinding
 				} else if(stackTrace.Match(line).Success) {
 					ProcessResult (line, outputType.backtrace, stackTrace.Match(line));
 					continue;
-				} else {
-					//type = TargetEventType.TargetStopped;
-					//Console.WriteLine ("just blanla in output");
+				}else {
 					continue;
 				}
 				FireTargetEvent (type);
@@ -304,10 +312,14 @@ namespace MonoDevelop.HaxeBinding
 			switch (eventType)
 			{
 			case outputType.interrupt:
-				lastResult.threadId = Convert.ToInt32 (matchResult.Groups [1].Value);
-				lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32 (matchResult.Groups [2].Value);
+				if (!breaksInited) {
+					InitBreaks ();
+				} else {
+					lastResult.threadId = Convert.ToInt32 (matchResult.Groups [1].Value);
+					lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32 (matchResult.Groups [2].Value);
 
-				are.Set ();
+					are.Set ();
+				}
 				break;
 			case outputType.backtrace:
 				var element = new HxcppStackInfo ();
@@ -328,6 +340,9 @@ namespace MonoDevelop.HaxeBinding
 					waitForVars = false;
 					are.Set ();
 				}
+				break;
+			case outputType.breakInserted:
+				are.Set ();
 				break;
 			}
 		}
