@@ -66,7 +66,7 @@ namespace MonoDevelop.HaxeBinding
 				foreach (HxcppStackInfo element in session.lastResult.stackElements) {
 					frames.Add (new StackFrame (0,
 					                            new SourceLocation (element.name,
-					                                              PathHelper.GetFullPath (session.classPathes, element.file),
+					                                              PathHelper.GetFullPath (session.BaseDirectory, element.file),
 					                                              element.line), 
 					                            "Haxe"));
 				}

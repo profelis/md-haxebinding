@@ -267,7 +267,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 			HaxeExecutionCommand cmd = new HaxeExecutionCommand (exe);
 			cmd.Arguments = args;
 			cmd.WorkingDirectory = project.BaseDirectory.FullPath;
-			cmd.Pathes = project.pathes.ToArray();
+			cmd.Paths = project.pathes.ToArray();
+			cmd.BaseDirectory = project.BaseDirectory;
 
 			return cmd;
 		}

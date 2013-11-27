@@ -5,7 +5,8 @@ namespace MonoDevelop.HaxeBinding
 {
 	public class HxcppDebuggerStartInfo : DebuggerStartInfo
 	{
-		public Array Pathes;
+		public Array Paths;
+		public string BaseDirectory;
 
 		public HxcppDebuggerStartInfo () : base()
 		{

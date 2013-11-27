@@ -9,7 +9,8 @@ namespace MonoDevelop.HaxeBinding
 
 	public class HaxeExecutionCommand : NativeExecutionCommand
 	{
-		public Array Pathes;
+		public Array Paths;
+		public string BaseDirectory;
 
 		public HaxeProjectTarget haxeExecuteTarget;
 		public HaxeTarget? haxeTarget;

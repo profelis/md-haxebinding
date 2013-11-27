@@ -73,12 +73,21 @@ namespace MonoDevelop.HaxeBinding
 			return "";
 		}
 
-		public static string GetFullPath(Array pathes, string file)
+
+		// is file given as absolute path or as relative to out base directory
+		public static string GetFullPath(string baseDirectory, string file)
 		{
-			foreach (string classPath in pathes) {
-				if (File.Exists(classPath + '/' + file)) {
-					return classPath + '/' + file;
-				}
+			if (File.Exists(baseDirectory + '/' + file)) {
+				return baseDirectory + '/' + file;
+			}
+			return file;
+		}
+
+		// cut off base directory if file is there
+		public static string CutOffBase(string baseDirectory, string file)
+		{
+			if (file.StartsWith (baseDirectory)) {
+				return file.Substring (baseDirectory.Length + 1);
 			}
 			return file;
 		}
