@@ -22,9 +22,11 @@ namespace MonoDevelop.HaxeBinding
 			NativeExecutionCommand pec = (NativeExecutionCommand) command;
 			HxcppDebuggerStartInfo startInfo = new HxcppDebuggerStartInfo ();
 			if (command is HaxeExecutionCommand) {
-				startInfo.Paths = ((HaxeExecutionCommand)command).Pathes;
+				startInfo.Paths = ((HaxeExecutionCommand)command).Paths;
+				startInfo.BaseDirectory = ((HaxeExecutionCommand)command).BaseDirectory;
 			} else {
 				startInfo.Paths = new string[0];
+				startInfo.BaseDirectory = "";
 			}
 			startInfo.Command = pec.Command;
 			startInfo.Arguments = pec.Arguments;

@@ -44,7 +44,8 @@ namespace MonoDevelop.HaxeBinding
 		bool breaksInited = false;
 
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
-		public Array classPathes = null;
+		public Array ClassPaths = null;
+		public string BaseDirectory = "";
 		bool running = false;
 
 		public bool waitForVars = false;
@@ -69,10 +70,11 @@ namespace MonoDevelop.HaxeBinding
 			// TODO: add for haxe projects too
 			if (startInfo is HxcppDebuggerStartInfo) {
 				LogWriter (false, "It's hxcpp\n");
-				classPathes = ((HxcppDebuggerStartInfo)startInfo).Paths;
+				ClassPaths = ((HxcppDebuggerStartInfo)startInfo).Paths;
+				BaseDirectory = ((HxcppDebuggerStartInfo)startInfo).BaseDirectory;
 			} else {
 				LogWriter (false, "It's not hxcpp\n");
-				classPathes = new string[0];
+				ClassPaths = new string[0];
 			}
 			manualPaused = false;
          	breaksInited = false;
@@ -178,8 +180,9 @@ namespace MonoDevelop.HaxeBinding
 			BreakEventInfo bi = new BreakEventInfo ();
 
 
-			LogWriter(false, "Location is " + PathHelper.CutOffClassPath(classPathes, bp.FileName) + ":" + bp.Line + '\n');
-			breaks.Add (new Break (PathHelper.CutOffClassPath (classPathes, bp.FileName), bp.Line));
+			LogWriter(false, "Location is " + PathHelper.CutOffClassPath(ClassPaths, bp.FileName) + ":" + bp.Line + '\n');
+			//breaks.Add (new Break (PathHelper.CutOffClassPath (ClassPaths, bp.FileName), bp.Line));
+			breaks.Add (new Break (PathHelper.CutOffBase (BaseDirectory, bp.FileName), bp.Line));
 
 			//bi.Handle = TODO: add returned success value (break count etc)
 			bi.SetStatus (BreakEventStatus.Bound, null);
@@ -204,6 +207,7 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnContinue ()
 		{
+			InitBreaks ();
 			LogWriter (false, "Continue execution\n");
 			RunCommand(false, "continue");
 			running = true;
@@ -235,9 +239,10 @@ namespace MonoDevelop.HaxeBinding
 			{
 				RunCommand (true, "break " + breakpoint.filename + ":" + breakpoint.line);
 			}
+			breaks.Clear();
 			breaksInited = true;
-			RunCommand (false, "continue");
-			this.OnContinue ();
+
+			//this.OnContinue ();
 		}
 
 		void StopDebugger()
@@ -312,14 +317,10 @@ namespace MonoDevelop.HaxeBinding
 			switch (eventType)
 			{
 			case outputType.interrupt:
-				if (!breaksInited) {
-					InitBreaks ();
-				} else {
-					lastResult.threadId = Convert.ToInt32 (matchResult.Groups [1].Value);
-					lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32 (matchResult.Groups [2].Value);
+				lastResult.threadId = Convert.ToInt32 (matchResult.Groups [1].Value);
+				lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32 (matchResult.Groups [2].Value);
 
-					are.Set ();
-				}
+				are.Set ();
 				break;
 			case outputType.backtrace:
 				var element = new HxcppStackInfo ();
@@ -396,8 +397,8 @@ namespace MonoDevelop.HaxeBinding
 
 		public void RunCommand (bool waitForAnswer, string command, params string[] args)
 		{
-
 			sin.WriteLine (command + " " + string.Join (" ", args));
+			LogWriter (false, command + " " + string.Join (" ", args) + '\n');
 			if (waitForAnswer) {
 				WaitHandle.WaitAll (syncHandle);
 				((AutoResetEvent)syncHandle[0]).Reset ();

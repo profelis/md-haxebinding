@@ -34,39 +34,53 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Addins">
+      <Package>/usr/lib/monodevelop/bin/Mono.Addins.dll</Package>
     </Reference>
     <Reference Include="MonoDevelop.Core">
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="Mono.TextEditor">
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="Mono.Cairo" />
     <Reference Include="Mono.Debugging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e9ce85b0923c84f">
       <Private>False</Private>
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="Mono.Posix" />
     <Reference Include="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
+      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
+      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.SourceEditor2, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
+      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>False</Private>
+      <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>glib-sharp-2.0</Package>
     </Reference>
     <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-2.0</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +90,6 @@
     <Compile Include="HaxeBinding\Debugger\HxcppDbgSession.cs" />
     <Compile Include="HaxeBinding\Debugger\HxcppDebuggerFactory.cs" />
     <Compile Include="HaxeBinding\Debugger\HxcppDebuggerStartInfo.cs" />
-    <Compile Include="HaxeBinding\Helpers\PathHelper.cs" />
     <Compile Include="HaxeBinding\Highlighting\HaxeSyntaxMode.cs" />
     <Compile Include="HaxeBinding\Languages\HaxeLanguageBinding.cs" />
     <Compile Include="HaxeBinding\Languages\HXMLLanguageBinding.cs" />
@@ -107,6 +120,7 @@
     <Compile Include="HaxeBinding\Tools\HaxelibTools.cs" />
     <Compile Include="HaxeBinding\Projects\OpenFLProjectBinding.cs" />
     <Compile Include="HaxeBinding\Projects\OpenFLProject.cs" />
+    <Compile Include="HaxeBinding\Tools\PathHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml">

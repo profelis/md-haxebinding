@@ -330,6 +330,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 			string output = project.OutputFile;
 
+			cmd.BaseDirectory = project.BaseDirectory;
+
 			if (output.Length > 0 && !output.StartsWith ("http://") && !File.Exists (Path.GetFullPath (output))) {
 				output = Path.Combine (project.BaseDirectory, output);
 			}
@@ -460,6 +462,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			} catch (Exception) {}
 		}
 
+		// FIXME: classpaths contains "" strings
 		public static List<string> GetClassPaths(HaxeProject project, HaxeProjectConfiguration configuration)
 		{
 			List<string> paths = new List<string> ();
