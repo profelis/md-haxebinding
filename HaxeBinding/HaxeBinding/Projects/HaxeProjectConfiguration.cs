@@ -30,27 +30,27 @@ namespace MonoDevelop.HaxeBinding.Projects
 		}
 
 		[ItemProperty("HaxeExecuteTarget", DefaultValue="")]
-		HaxeProjectTarget mHaxeProjectTarget;
+		int mHaxeProjectTarget;
 
 		public HaxeProjectTarget HaxeProjectTarget {
-			get { return mHaxeProjectTarget;  }
-			set { mHaxeProjectTarget = value; }
+			get { return (HaxeProjectTarget)mHaxeProjectTarget;  }
+			set { mHaxeProjectTarget = (int)value; }
 		}
 
 		[ItemProperty("OpenFLTarget", DefaultValue="")]
-		OpenFLTarget? mOpenFLTarget = null;
+		int? mOpenFLTarget = null;
 
 		public OpenFLTarget? OpenFLTarget {
-			get { return mOpenFLTarget;  }
-			set { mOpenFLTarget = value; }
+			get { return (OpenFLTarget)mOpenFLTarget;  }
+			set { mOpenFLTarget = (int)value; }
 		}
 
 		[ItemProperty("HaxeTarget", DefaultValue="")]
-		HaxeTarget? mHaxeTarget = null;
+		int? mHaxeTarget = null;
 
 		public HaxeTarget? HaxeTarget {
-			get { return mHaxeTarget;  }
-			set { mHaxeTarget = value; }
+			get { return (HaxeTarget)mHaxeTarget;  }
+			set { mHaxeTarget = (int)value; }
 		}
 
 		public override void CopyFrom (ItemConfiguration configuration)

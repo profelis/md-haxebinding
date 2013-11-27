@@ -317,6 +317,10 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		private static HaxeExecutionCommand CreateExecutionCommand (HaxeProject project, HaxeProjectConfiguration configuration)
 		{
+			if (configuration == null) {
+				return null;
+			}
+
 			HaxeExecutionCommand cmd = new HaxeExecutionCommand ();
 			cmd.haxeExecuteTarget = HaxeProjectTarget.Haxe;
 			cmd.DebugMode = configuration.DebugMode;

@@ -199,7 +199,12 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 
 		public HaxeProject (ProjectCreateInformation info, XmlElement projectOptions) : base()
-		{	
+		{
+			if (projectOptions == null) 
+			{
+				return;
+			}
+
 			ModuleName = info.ProjectName.Substring (0, 1).ToUpper () + info.ProjectName.Substring (1);
 
 			if (projectOptions.Attributes ["AdditionalArguments"] != null)

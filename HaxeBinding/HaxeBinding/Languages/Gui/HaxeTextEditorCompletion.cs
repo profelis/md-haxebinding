@@ -137,7 +137,8 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		private void FetchCompletionData (CodeCompletionContext completionContext)
 		{
-			if (completionContext != null && completionContext.TriggerOffset != mCacheTriggerOffset)
+			if (completionContext != null && completionContext.TriggerOffset != mCacheTriggerOffset &&
+			    (HaxeProject)Document.Project != null)
 			{
 				mCacheTriggerOffset = completionContext.TriggerOffset;
 				File.WriteAllText (mTempFileName, Document.Editor.Text);

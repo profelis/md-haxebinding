@@ -15,7 +15,7 @@
 <![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <project>
 	<meta title="${ProjectName}" package="mycompany.myapp" version="1.0.0" company="${AuthorCompany}" />
-	<app path="Export" main="${ModuleName}" file="${ProjectName}" />
+	<app path="Export" main="${ModuleName}" file="${ModuleName}" />
 
 	<source path="Source" />
 	

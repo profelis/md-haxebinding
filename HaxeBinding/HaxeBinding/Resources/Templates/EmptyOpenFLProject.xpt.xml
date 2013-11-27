@@ -607,7 +607,7 @@
 	<polyline fill="#6BC9C7" points="124.068,6.036 112.826,6.036 112.826,4.836 124.068,4.836 124.068,6.036 	"/>
 </g>
 </svg>]]></HaxeFile>
-                <HaxeFile name="Source/${ProjectName}.hx" AddStandardHeader="True">
+                <HaxeFile name="Source/${ModuleName}.hx" AddStandardHeader="True">
 <![CDATA[package;
 
 import flash.display.Sprite;
