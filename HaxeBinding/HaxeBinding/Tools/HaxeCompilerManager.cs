@@ -179,7 +179,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			string exe = "haxe";
 			string args = "";
 
-			if (project.ProjectTarget == HaxeProjectTarget.OpenFL) {
+			if (project is OpenFLProject) {
 				
 				HaxeProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as HaxeProjectConfiguration;
 				
@@ -204,15 +204,11 @@ namespace MonoDevelop.HaxeBinding.Tools
 				
 				args = cacheHXML + " -D code_completion";
 				
-			} else if (project.ProjectTarget == HaxeProjectTarget.Haxe) {
+			} else { // HaxeProject
 				
 				HaxeProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as HaxeProjectConfiguration;
 				
 				args = "\"" + ((HaxeProject)project).BuildFile + "\" " + ((HaxeProject)project).AdditionalArguments + " " + configuration.AdditionalArguments;
-				
-			} else {
-				
-				return "";
 				
 			}
 			

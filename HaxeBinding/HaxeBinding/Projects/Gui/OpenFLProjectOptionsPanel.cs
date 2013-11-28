@@ -8,14 +8,14 @@ using Gtk;
 namespace MonoDevelop.HaxeBinding.Projects.Gui
 {
 
-	public class HaxeProjectOptionsPanel : ItemOptionsPanel
+	public class OpenFLProjectOptionsPanel : ItemOptionsPanel
 	{
-		HaxeProjectOptionsWidget mWidget;
+		OpenFLProjectOptionsWidget mWidget;
 
 
 		public override Gtk.Widget CreatePanelWidget ()
 		{	
-			mWidget = new HaxeProjectOptionsWidget ();
+			mWidget = new OpenFLProjectOptionsWidget ();
 			mWidget.Load ((HaxeProject)ConfiguredProject);
 			return mWidget;
 		}
@@ -29,12 +29,12 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 
 	[System.ComponentModel.Category("HaxeBinding")]
     [System.ComponentModel.ToolboxItem(true)]
-    public partial class HaxeProjectOptionsWidget : Gtk.Bin
+	public partial class OpenFLProjectOptionsWidget : Gtk.Bin
 	{
 		HaxeProject mProject;
 
 
-		public HaxeProjectOptionsWidget ()
+		public OpenFLProjectOptionsWidget ()
 		{
 			this.Build ();
 		}
@@ -63,13 +63,13 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		protected void OnBuildFileButtonClick (object sender, System.EventArgs e)
 		{
 			Gtk.FileChooserDialog fc =
-                new Gtk.FileChooserDialog ("HXML file", this.Toplevel as Gtk.Window, FileChooserAction.Open,
+				new Gtk.FileChooserDialog ("OpenFL project", this.Toplevel as Gtk.Window, FileChooserAction.Open,
                     "Cancel", ResponseType.Cancel,
 					"Ok", ResponseType.Accept);
 			
 			Gtk.FileFilter filterHaxe = new Gtk.FileFilter ();
-			filterHaxe.Name = "HXML Files";
-			filterHaxe.AddPattern ("*.hxml");
+			filterHaxe.Name = "OpenFL project";
+			filterHaxe.AddPattern ("*.xml");
 			
 			Gtk.FileFilter filterAll = new Gtk.FileFilter ();
 			filterAll.Name = "All Files";

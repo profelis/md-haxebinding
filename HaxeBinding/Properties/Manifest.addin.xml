@@ -86,11 +86,16 @@
 	<!-- Projects -->
 	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
 		<ProjectBinding id="HaxeProject" class="MonoDevelop.HaxeBinding.Projects.HaxeProjectBinding" />
+		<ProjectBinding id="OpenFLProject" class="MonoDevelop.HaxeBinding.Projects.OpenFLProjectBinding" />
 	</Extension>
 	
 	<Extension path="/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Build">
 		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.HaxeProject">
 			<Section id="HaxeProjectOptionsPanel" _label="Haxe project" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsPanel" />
+			<Section id="HaxeConfigurationPanel" _label="Haxe configuration" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectConfigurationPanel" />
+		</Condition>
+		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.OpenFLProject">
+			<Section id="HaxeProjectOptionsPanel" _label="Haxe project" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.OpenFLProjectOptionsPanel" />
 			<Section id="HaxeConfigurationPanel" _label="Haxe configuration" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectConfigurationPanel" />
 		</Condition>
 	</Extension>
@@ -99,10 +104,14 @@
 		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.HaxeProject">
 			<Section id="HaxeProjectOptionsPanel" _label="Haxe run" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectRunPanel" />
 		</Condition>
+		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.OpenFLProject">
+			<Section id="HaxeProjectOptionsPanel" _label="Haxe run" icon="fd-icon" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectRunPanel" />
+		</Condition>
 	</Extension>
 
 	<Extension path="/MonoDevelop/ProjectModel/SerializableClasses">
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProject" />
+		<DataType class="MonoDevelop.HaxeBinding.Projects.OpenFLProject" />
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />
 	</Extension>
 	

@@ -42,18 +42,13 @@ namespace MonoDevelop.HaxeBinding.Projects
 			get { return mBuildFile;  }
 			set { 
 				mBuildFile = value;
-				// TODO: check file content
-				if (mBuildFile.EndsWith(".hxml")) {
-					ProjectTarget = HaxeProjectTarget.Haxe;
-				} else if (mBuildFile.EndsWith(".xml")) {
-					ProjectTarget = HaxeProjectTarget.OpenFL;
-				}
 				if (DefaultRun) {
 					updateDefaultRunConfig ((HaxeProjectConfiguration)DefaultConfiguration);
 				}
 			}
 		}
 
+		// HaxeProjectRunPanel
 		[ItemProperty("DefaultRun", DefaultValue="")]
 		bool mDefaultRun = false;
 
@@ -94,93 +89,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set { mOutputArguments = value; }
 		}
 		
-		HaxeProjectTarget mProjectTarget = HaxeProjectTarget.Haxe;
-
-		public HaxeProjectTarget ProjectTarget {
-			get { return mProjectTarget; }
-			set { 
-				mProjectTarget = value;
-
-				Configurations.Clear ();
-				HaxeProjectConfiguration configuration;
-
-				switch (mProjectTarget) {
-				case HaxeProjectTarget.OpenFL:
-
-					string[] targets = new string[] {
-						"Android",
-						"BlackBerry",
-						"Flash",
-						"HTML5",
-						"iOS",
-						"Linux",
-						"Mac",
-						"webOS",
-						"Windows"
-					};
-					OpenFLTarget[] targetFlags = new OpenFLTarget[] {
-						OpenFLTarget.Android,
-						OpenFLTarget.BlackBerry,
-						OpenFLTarget.Flash,
-						OpenFLTarget.HTML5,
-						OpenFLTarget.iOS,
-						OpenFLTarget.Linux,
-						OpenFLTarget.Mac,
-						OpenFLTarget.webOS,
-						OpenFLTarget.Windows
-					};
-
-					for (int i = 0; i < targets.Length; i++) {
-						string target = targets [i];
-						OpenFLTarget targetFlag = targetFlags [i];
-						configuration = (HaxeProjectConfiguration)CreateConfiguration ("Debug");
-						configuration.DebugMode = true;
-						configuration.Platform = target;
-						configuration.OpenFLTarget = targetFlag;
-						configuration.HaxeProjectTarget = HaxeProjectTarget.OpenFL;
-
-						if (target == "iOS") {
-							configuration.AdditionalArguments = "-simulator";
-						}
-						Configurations.Add (configuration);
-					}
-
-					for (int i = 0; i < targets.Length; i++) {
-						string target = targets [i];
-						OpenFLTarget targetFlag = targetFlags [i];
-						configuration = (HaxeProjectConfiguration)CreateConfiguration ("Release");
-						configuration.DebugMode = false;
-						configuration.Platform = target;
-						configuration.OpenFLTarget = targetFlag;
-						configuration.HaxeProjectTarget = HaxeProjectTarget.OpenFL;
-
-						if (target == "iOS") {
-							configuration.AdditionalArguments = "-simulator";
-						}
-						Configurations.Add (configuration);
-					}
-					pathes.Add (this.BaseDirectory);
-					break;
-				case HaxeProjectTarget.Haxe:
-
-					configuration = (HaxeProjectConfiguration)CreateConfiguration ("Debug");
-					configuration.DebugMode = true;
-					configuration.HaxeProjectTarget = HaxeProjectTarget.Haxe;
-					configuration.Platform = "Haxe";
-					Configurations.Add (configuration);
-
-					configuration = (HaxeProjectConfiguration)CreateConfiguration ("Release");
-					configuration.DebugMode = false;
-					configuration.HaxeProjectTarget = HaxeProjectTarget.Haxe;
-					configuration.Platform = "Haxe";
-					Configurations.Add (configuration);
-					break;
-				}
-			}
-		}
-
 		public List<string> pathes = new List<string> ();
-
+		
 		public string ModuleName {
 			get;
 			private set;
@@ -188,7 +98,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 		public HaxeProject () : base()
 		{
-			
+			buildConfigurations ();
 		}
 
 		public override void Dispose ()
@@ -196,7 +106,6 @@ namespace MonoDevelop.HaxeBinding.Projects
 			HaxeCompilerManager.StopServer ();
 			base.Dispose ();
 		}
-
 
 		public HaxeProject (ProjectCreateInformation info, XmlElement projectOptions) : base()
 		{
@@ -231,16 +140,30 @@ namespace MonoDevelop.HaxeBinding.Projects
 			{
 				mDefaultRun = GetOptionAttribute (info, projectOptions, "DefaultRun") == "true";
 			}
+
+			buildConfigurations ();
 		}
 
 		protected override void OnEndLoad ()
 		{
-			bool dr = mDefaultRun;
-			mDefaultRun = false;
-			BuildFile = mBuildFile;
-			DefaultRun = dr;
+			DefaultRun = mDefaultRun;
 
 			base.OnEndLoad ();
+		}
+
+		protected virtual void buildConfigurations ()
+		{
+			HaxeProjectConfiguration configuration = (HaxeProjectConfiguration)CreateConfiguration ("Debug");
+			configuration.DebugMode = true;
+			configuration.HaxeProjectTarget = HaxeProjectTarget.Haxe;
+			configuration.Platform = "Haxe";
+			Configurations.Add (configuration);
+
+			configuration = (HaxeProjectConfiguration)CreateConfiguration ("Release");
+			configuration.DebugMode = false;
+			configuration.HaxeProjectTarget = HaxeProjectTarget.Haxe;
+			configuration.Platform = "Haxe";
+			Configurations.Add (configuration);
 		}
 
 		protected string GetOptionAttribute (ProjectCreateInformation info, XmlElement projectOptions, string attributeName)
@@ -255,8 +178,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			conf.Name = name;
 			return conf;
 		}
-		
-		
+
 		protected override BuildResult DoBuild (IProgressMonitor monitor, ConfigurationSelector configurationSelector)
 		{
 			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
@@ -264,27 +186,12 @@ namespace MonoDevelop.HaxeBinding.Projects
 				updateDefaultRunConfig (haxeConfig);
 			}
 
-			switch (ProjectTarget) {
-			case HaxeProjectTarget.Haxe:
-				return HaxeCompilerManager.Compile (this, haxeConfig, monitor);
-			case HaxeProjectTarget.OpenFL:
-				return OpenFLCommandLineToolsManager.Compile (this, haxeConfig, monitor);
-			default:
-				return null;
-			}
+			return HaxeCompilerManager.Compile (this, haxeConfig, monitor);
 		}
 
 		protected override void DoClean (IProgressMonitor monitor, ConfigurationSelector configuration)
 		{
-			switch (ProjectTarget) {
-			case HaxeProjectTarget.Haxe:
-				break;
-				//base.DoClean (monitor, configuration);
-			case HaxeProjectTarget.OpenFL:
-				HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configuration);
-				OpenFLCommandLineToolsManager.Clean (this, haxeConfig, monitor);
-				break;
-			}
+			//base.DoClean (monitor, configuration);
 		}
 
 		protected override void DoExecute (IProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configurationSelector)
@@ -293,16 +200,9 @@ namespace MonoDevelop.HaxeBinding.Projects
 			if (DefaultRun) {
 				updateDefaultRunConfig (haxeConfig);
 			}
-			pathes = HaxeCompilerManager.GetClassPaths (this, haxeConfig); // hxml need too?
+			//pathes = HaxeCompilerManager.GetClassPaths (this, haxeConfig); // hxml need too?
 
-			switch (ProjectTarget) {
-			case HaxeProjectTarget.Haxe:
-				HaxeCompilerManager.Run (this, haxeConfig, monitor, context);
-				break;
-			case HaxeProjectTarget.OpenFL:
-				OpenFLCommandLineToolsManager.Run (this, haxeConfig, monitor, context);
-				break;
-			}
+			HaxeCompilerManager.Run (this, haxeConfig, monitor, context);
 		}
 		
 		public override bool IsCompileable (string fileName)
@@ -317,92 +217,64 @@ namespace MonoDevelop.HaxeBinding.Projects
 			if (DefaultRun) {
 				updateDefaultRunConfig (haxeConfig);
 			}
-			switch (ProjectTarget) {
-			case HaxeProjectTarget.Haxe:
-				return HaxeCompilerManager.CanRun (this, haxeConfig, context);
-			case HaxeProjectTarget.OpenFL:
-				return OpenFLCommandLineToolsManager.CanRun (this, haxeConfig, context);
-			default:
-				return false;
-			}
+			return HaxeCompilerManager.CanRun (this, haxeConfig, context);
 		}
 
-		public HxmlParser getHxml(HaxeProjectConfiguration configuration) {
-			string hxmlContent = null;
+		public virtual HxmlParser getHxml(HaxeProjectConfiguration configuration) {
 
-			switch (this.ProjectTarget) {
-			case HaxeProjectTarget.Haxe:
-				string path = Path.GetFullPath (BuildFile);
+			string path = Path.GetFullPath (BuildFile);
 
-				if (!File.Exists (path)) {
-					path = Path.Combine (BaseDirectory, BuildFile);
-				}
-				hxmlContent = File.ReadAllText (path);
-				break;
-			case HaxeProjectTarget.OpenFL:
-
-				hxmlContent = OpenFLCommandLineToolsManager.GetHXMLData (this, configuration);
-				break;
+			if (!File.Exists (path)) {
+				path = Path.Combine (BaseDirectory, BuildFile);
 			}
-			if (hxmlContent == null) {
-				throw new Exception ("can't get hxml file");
-			}
+			string hxmlContent = File.ReadAllText (path);
+
 			HxmlParser hxml = new HxmlParser ();
 			hxml.Parse (hxmlContent);
 			return hxml;
 		}
 
-		public void updateDefaultRunConfig(HaxeProjectConfiguration configuration) {
+		public virtual void updateDefaultRunConfig(HaxeProjectConfiguration configuration) {
 			HxmlParser hxml = getHxml (configuration);
-			switch (ProjectTarget) {
-			case HaxeProjectTarget.OpenFL:
+			// TODO: optimize
+			switch (hxml.Target) {
+			case HaxeTarget.Flash:
 				ExecuteFile = String.Empty;
-				OutputFile = BuildFile;
+				OutputFile = hxml.Out;
 				break;
-			case HaxeProjectTarget.Haxe:
-				// TODO: optimize
-				switch (hxml.Target) {
-				case HaxeTarget.Flash:
-					ExecuteFile = String.Empty;
-					OutputFile = hxml.Out;
-					break;
-				case HaxeTarget.Js:
-					ExecuteFile = String.Empty;
-					OutputFile = Path.Combine(hxml.Out, "index.html");
-					break;
-				case HaxeTarget.Cpp:
-					ExecuteFile = String.Empty;
-					OutputFile = Path.Combine (hxml.Out, Name);
-					break;
-				case HaxeTarget.Cs:
-					ExecuteFile = String.Empty;
-					OutputFile = Path.Combine (hxml.Out, Name);
-					break;
-				case HaxeTarget.Neko:
-					ExecuteFile = "neko";
-					OutputFile = hxml.Out;
-					break;
-				case HaxeTarget.Java:
-					ExecuteFile = "java -jar";
-					OutputFile = Path.Combine (hxml.Out, "java.jar");
-					break;
-				case HaxeTarget.Php:
-					ExecuteFile = String.Empty;
-					OutputFile = "http://127.0.0.1";
-					break;
-				}
+			case HaxeTarget.Js:
+				ExecuteFile = String.Empty;
+				OutputFile = Path.Combine(Path.GetDirectoryName(hxml.Out), "index.html");
+				break;
+			case HaxeTarget.Cpp:
+				ExecuteFile = String.Empty;
+				OutputFile = Path.Combine (hxml.Out, Name);
+				break;
+			case HaxeTarget.Cs:
+				ExecuteFile = String.Empty;
+				OutputFile = Path.Combine (hxml.Out, Name);
+				break;
+			case HaxeTarget.Neko:
+				ExecuteFile = "neko";
+				OutputFile = hxml.Out;
+				break;
+			case HaxeTarget.Java:
+				ExecuteFile = "java -jar";
+				OutputFile = Path.Combine (hxml.Out, "java.jar");
+				break;
+			case HaxeTarget.Php:
+				ExecuteFile = String.Empty;
+				OutputFile = "http://127.0.0.1";
 				break;
 			}
 		}
-
-
+		
 		public override string ProjectType {
 			get { return "Haxe"; }
 		}
-		
 
 		public override string[] SupportedLanguages {
-			get { return new string[] { "", "Haxe", "HXML", "OpenFL" }; }
+			get { return new string[] { "", "Haxe", "HXML" }; }
 		}
 		
 	}

@@ -4,6 +4,7 @@ HaxeBinding/bin
 obj
 /HaxeBinding/gtk-gui/MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsWidget.cs
 /HaxeBinding/gtk-gui/MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs
+/HaxeBinding/gtk-gui/MonoDevelop.HaxeBinding.Projects.Gui.OpenFLProjectOptionsWidget.cs
 /HaxeBinding/gtk-gui/MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectRunWidget.cs
 /HaxeBinding/gtk-gui/generated.cs
 /HaxeBinding/gtk-gui/MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget.cs
