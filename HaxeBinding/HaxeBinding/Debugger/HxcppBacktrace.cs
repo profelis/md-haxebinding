@@ -10,10 +10,8 @@ namespace MonoDevelop.HaxeBinding
 	public class HxcppBacktrace : IBacktrace, IObjectValueSource
 	{
 		int fcount;
-		//StackFrame firstFrame;
 		HxcppDbgSession session;
-		//DissassemblyBuffer[] disBuffers;
-		//int currentFrame = -1;
+
 		long threadId;
 		object syncLock = new object();
 
@@ -57,21 +55,18 @@ namespace MonoDevelop.HaxeBinding
 
 		public StackFrame[] GetStackFrames (int firstIndex, int lastIndex)
 		{
-			Console.WriteLine (firstIndex + " " + lastIndex);
 			List<StackFrame> frames = new List<StackFrame>();
-			//TODO: fill it up, now it's just a dummy thing to point to the file
-			session.lastResult.stackElements.Clear ();
 			session.RunCommand (true, "where", new string[0]);
-			lock (syncLock) {
-				foreach (HxcppStackInfo element in session.lastResult.stackElements) {
-					frames.Add (new StackFrame (0,
-					                            new SourceLocation (element.name,
-					                                              PathHelper.GetFullPath (session.BaseDirectory, element.file),
-					                                              element.line), 
-					                            "Haxe"));
-				}
+			HxcppStackInfo[] stackElements = new HxcppStackInfo[session.lastResult.stackElements.Count];
+			session.lastResult.stackElements.CopyTo (stackElements);
+			session.lastResult.stackElements.Clear ();
+			foreach (HxcppStackInfo element in stackElements) {
+				frames.Add (new StackFrame (0,
+				                            new SourceLocation (element.name,
+				                                              PathHelper.GetFullPath (session.BaseDirectory, element.file),
+				                                              element.line), 
+				                            "Haxe"));
 			}
-			//frames.Add (new StackFrame (0, new SourceLocation("new", "E:\\dev\\myown\\just_test\\Just_ololo\\Source\\Just_ololo.hx", 15), "Native"));
 			return frames.ToArray();
 		}
 

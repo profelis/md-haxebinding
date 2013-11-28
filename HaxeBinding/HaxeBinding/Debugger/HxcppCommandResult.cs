@@ -15,7 +15,6 @@ namespace MonoDevelop.HaxeBinding
 	public class HxcppCommandResult
 	{
 		public int depth;
-		public int depth_unprocessed;
 		public List<HxcppStackInfo> stackElements = new List<HxcppStackInfo>();
 		public int threadId;
 		public List<string> vars = new List<string>();

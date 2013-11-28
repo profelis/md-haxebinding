@@ -34,53 +34,39 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Addins">
-      <Package>/usr/lib/monodevelop/bin/Mono.Addins.dll</Package>
     </Reference>
     <Reference Include="MonoDevelop.Core">
-      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
-      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="Mono.TextEditor">
-      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
-      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="Mono.Cairo" />
     <Reference Include="Mono.Debugging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e9ce85b0923c84f">
       <Private>False</Private>
-      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="Mono.Posix" />
     <Reference Include="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
-      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
-      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.SourceEditor2, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
-      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>False</Private>
-      <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>glib-sharp-2.0</Package>
     </Reference>
     <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Package>gtk-sharp-2.0</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>

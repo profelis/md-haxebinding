@@ -40,9 +40,6 @@ namespace MonoDevelop.HaxeBinding
 		Thread reciever;
 		Thread appthread;
 
-		bool manualPaused = false;
-		bool breaksInited = false;
-
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
 		public Array ClassPaths = null;
 		public string BaseDirectory = "";
@@ -76,8 +73,6 @@ namespace MonoDevelop.HaxeBinding
 				LogWriter (false, "It's not hxcpp\n");
 				ClassPaths = new string[0];
 			}
-			manualPaused = false;
-         	breaksInited = false;
 			breaks.Clear ();
 			CreateDebugger ();
 			StartDebugger ();
@@ -181,7 +176,6 @@ namespace MonoDevelop.HaxeBinding
 
 
 			LogWriter(false, "Location is " + PathHelper.CutOffClassPath(ClassPaths, bp.FileName) + ":" + bp.Line + '\n');
-			//breaks.Add (new Break (PathHelper.CutOffClassPath (ClassPaths, bp.FileName), bp.Line));
 			breaks.Add (new Break (PathHelper.CutOffBase (BaseDirectory, bp.FileName), bp.Line));
 
 			//bi.Handle = TODO: add returned success value (break count etc)
@@ -240,9 +234,6 @@ namespace MonoDevelop.HaxeBinding
 				RunCommand (true, "break " + breakpoint.filename + ":" + breakpoint.line);
 			}
 			breaks.Clear();
-			breaksInited = true;
-
-			//this.OnContinue ();
 		}
 
 		void StopDebugger()
@@ -318,7 +309,7 @@ namespace MonoDevelop.HaxeBinding
 			{
 			case outputType.interrupt:
 				lastResult.threadId = Convert.ToInt32 (matchResult.Groups [1].Value);
-				lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32 (matchResult.Groups [2].Value);
+				lastResult.depth = Convert.ToInt32 (matchResult.Groups [2].Value);
 
 				are.Set ();
 				break;
@@ -329,10 +320,8 @@ namespace MonoDevelop.HaxeBinding
 				element.file = Convert.ToString (matchResult.Groups [3].Value);
 				element.line = Convert.ToInt32 (matchResult.Groups [4].Value);
 				lastResult.stackElements.Add (element);
-				lastResult.depth_unprocessed--;
-				if (lastResult.depth_unprocessed < 0) {
+				if (Convert.ToInt32 (matchResult.Groups [1].Value) == 0)
 					are.Set ();
-				}
 				break;
 			case outputType.varsList:
 				if (line != "}") {
@@ -403,10 +392,6 @@ namespace MonoDevelop.HaxeBinding
 				WaitHandle.WaitAll (syncHandle);
 				((AutoResetEvent)syncHandle[0]).Reset ();
 			}
-
-					/*if (waitForAnswer) {
-						if (!Monitor.Wait (syncLock, 4000))
-							throw new InvalidOperationException ("Command execution timeout.");*/
 		}
 	}
 }
