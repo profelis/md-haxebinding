@@ -77,8 +77,9 @@ namespace MonoDevelop.HaxeBinding
 		// is file given as absolute path or as relative to out base directory
 		public static string GetFullPath(string baseDirectory, string file)
 		{
-			if (File.Exists(baseDirectory + '/' + file)) {
-				return baseDirectory + '/' + file;
+			var path = Path.Combine (baseDirectory, file);
+			if (File.Exists(path)) {
+				return path;
 			}
 			return file;
 		}

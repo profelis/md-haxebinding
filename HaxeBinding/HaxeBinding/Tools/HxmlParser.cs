@@ -54,7 +54,7 @@ namespace MonoDevelop.HaxeBinding.Tools {
 					if (split.Length > 1)
 						Defines.Add (split [0], split [1]);
 					else
-						Defines.Add (split [0], split [0]);
+						Defines.Add (split [0], "1"); // default value for -D flag
 					break;
 				case "-cp":
 					ClassPaths.Add (nextLine ());
